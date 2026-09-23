@@ -1,0 +1,7 @@
+interface:
+  display_name: "子智能体管家"
+  short_description: "Cost-aware Luna and Sol delegation under Astra"
+  default_prompt: "使用 $subagent-steward 完成任务：保留 Astra 主导，按实际需要决定子智能体数量，并选择 Luna 或 Sol 及推理强度。"
+
+policy:
+  allow_implicit_invocation: true
