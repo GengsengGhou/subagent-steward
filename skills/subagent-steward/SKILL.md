@@ -1,13 +1,13 @@
 ---
 name: subagent-steward
-description: "Choose whether to delegate substantial implementation, debugging, research, or review under an Astra lead. Prefer Luna with task-appropriate reasoning; choose Sol on concrete evidence to control total completion cost. Use for independent subtask planning or explicit cost-aware delegation; skip routine conversation and tiny edits."
+description: "Choose whether to delegate substantial implementation, debugging, research, or review under an Astra lead. Balance Luna, Sol, and reasoning effort by task needs and total cost, favoring Luna when both fit. Use for independent subtask planning or explicit cost-aware delegation; skip routine conversation and tiny edits."
 ---
 
 # 子智能体管家 · Subagent Steward
 
 Keep the user's chosen primary model and reasoning effort. The intended lead is Astra: it owns user communication, requirements, architecture, delegation, acceptance, and final delivery. Do not switch the lead to save money. When another primary model is explicitly selected, respect it.
 
-This skill requests delegation when the conditions below are met, and explicitly instructs selection of the subagent models and reasoning efforts below. The Luna/high and Sol/medium starting points follow official Codex guidance; the task-routing and exception rules are local trial policy, not measured cost or quality guarantees. Explicit user choices take precedence.
+This skill requests delegation when the conditions below are met, and explicitly instructs selection of the subagent models and reasoning efforts below. The Luna/high and Sol/medium starting points follow official Codex guidance; the task-routing suggestions are local trial policy, not measured cost or quality guarantees. Explicit user choices take precedence.
 
 ## Decide whether to delegate
 
@@ -21,36 +21,27 @@ Keep unresolved product decisions and high-impact tradeoffs with the lead. Give 
 
 ## Choose model and effort for total completion cost
 
-Default eligible delegated work to `gpt-6-luna` at `high`. Give Luna clear goals, boundaries, relevant context, and acceptance criteria, with autonomy to investigate and make local technical decisions. This includes implementation, debugging, tests, research, and work spanning multiple files or modules when the interfaces and intended behavior are sufficiently bounded.
+Choose a model-and-effort combination using ordinary task judgment: scope, uncertainty, reasoning depth, ability to check the result, likely supervision, time, and total cost. When both models look suitable with no clear practical advantage, favor `gpt-6-luna` for its lower cost. This is a preference, not a requirement to prove Luna inadequate before selecting `gpt-6-sol`.
 
-Compare plausible model-and-effort combinations rather than treating task difficulty as an automatic model upgrade. For a bounded but demanding task, seriously consider Luna at `xhigh` or `max` before choosing Sol. Higher effort is a candidate, not a mandatory trial. When the evidence below justifies Sol, use `gpt-6-sol` at `medium` as its starting effort and adjust to the analysis required.
+Luna/high and Sol/medium are useful starting points, not compulsory defaults or a trial sequence. Give either worker clear goals, relevant context, and enough autonomy to investigate and make local technical decisions. Use the tendencies below as guidance, not eligibility tests.
 
 | Subtask | Model | Starting effort |
 | --- | --- | --- |
-| Investigation, implementation, debugging, tests, or research with bounded objectives and checkable outcomes, including local technical judgment and multiple modules | `gpt-6-luna` | `high` baseline |
-| Truly mechanical work with explicit rules, few interacting constraints, and cheap reliable checks | `gpt-6-luna` | Consider `medium` or `low` as a cost-saving exception |
-| Bounded work with long reasoning chains, interacting constraints, or difficult edge cases, with reliable acceptance checks | `gpt-6-luna` | Consider `xhigh` or `max` when the specific reasoning burden warrants it |
-| Work meeting a concrete Sol selection reason below | `gpt-6-sol` | `medium` baseline; `high` or `xhigh` for demonstrably deeper analysis |
-| Exceptionally demanding analysis for either selected model | Luna or justified Sol | `max` when the additional depth is worth its time and usage |
+| Focused implementation, investigation, tests, summaries, or research, including local technical judgment and multiple modules | Usually `gpt-6-luna` | `high` is a useful starting point |
+| Simple extraction, transformations, or repetitive edits | Usually `gpt-6-luna` | `low` or `medium` can be sufficient |
+| Clear goals with long reasoning chains, interacting constraints, or many edge cases | Often `gpt-6-luna` | Freely choose `xhigh` or `max` for deeper reasoning |
+| Open-ended investigation, changing hypotheses, competing approaches, or integration needing broader judgment | Often `gpt-6-sol` | `medium` or `high`, adjusted to the task |
+| Deep analysis or extensive checking for either model | Whichever fits the work | `xhigh` or `max` when useful |
 
 Use these GPT-6 model IDs when the live subagent tool supports them. Select effort from that tool's supported values; API documentation and the primary-model picker do not establish subagent availability. Do not infer measured savings or quality gains from the generation change alone.
 
-Choose the justified effort up front; the levels are not a ladder of mandatory trial runs. Neither Sol nor Max is justified merely by the words "complex", "autonomous", "cross-module", a file count, or task length. Luna Max needs a concrete reasoning burden, such as interacting boundary conditions in a specified state machine. It does not require a failed lower-effort attempt first. Do not lower Luna's effort merely because it is cheaper or default it to Max merely because it is smaller.
+Select the effort that seems useful up front. There is no required progression through high, xhigh, and max, and no preference for xhigh solely because Max is the highest setting. If deeper thought is likely to help, Luna Max is a normal option; if the work is straightforward or latency matters more, use a lighter setting. The same flexibility applies to Sol. Neither Sol nor Max needs extra proof, a benchmark, a prior failure, or a special approval beyond ordinary task judgment. Do not manufacture certainty or collect evidence solely to authorize a model choice.
 
-### Require a concrete reason for Sol
+Task labels are hints, not automatic routing rules: multi-module work can fit Luna, and focused work can fit Sol when its judgment is likely to make execution easier. Choose Sol directly when it seems better suited to the investigation or expected supervision needs; Luna does not have to fail first. Likewise, do not choose Sol just because it is generally stronger or reject Luna merely because the task takes many steps. Keep the user's product and architectural decisions with Astra.
 
-Before choosing Sol, identify why a suitably supported, higher-effort Luna is a poor fit for this particular task. A sufficient reason can be:
+Aim for acceptable quality at reasonable total completion cost, including lead supervision, retries, acceptance, and elapsed time when relevant. Luna's lower per-token cost can make extra reasoning worthwhile; Sol can avoid costly guidance or rework. Use available experience when helpful without requiring measurements, inventing success probabilities, or assuming either model always wins.
 
-- Available evidence or relevant prior results show a capability gap on this kind of task; name the missing capability or failed invariant.
-- The task requires unresolved global design or correctness judgment, errors would have material consequences and be difficult to detect, and proportionate scoping or checks cannot sufficiently reduce that risk. Missing tests alone is not sufficient; consider an affordable focused check first.
-- A Luna attempt reveals substantive reasoning or implementation failure after adequate context and, when worthwhile, one targeted correction. Missing tools, environmental errors, or a failing test alone do not establish a model capability gap.
-- Task-specific evidence indicates Sol is likely to reduce total lead-plus-child cost or meet an explicit time constraint better, including dispatch, retries, acceptance, and recovery. Generic expectations that Sol is "safer" or Luna "might need rework" are not evidence.
-
-Explicit user model choices and unavailable Luna tooling can also justify Sol; disclose the reason. When a sufficient reason is already known, choose Sol directly without an unnecessary Luna trial. When both choices seem plausible and there is no concrete counterevidence, prefer Luna with an appropriate effort and bounded acceptance checks. Do not invent success probabilities or cost estimates to rationalize either choice.
-
-Optimize expected total completion cost at acceptable quality. Luna's lower per-token cost can make extra reasoning and a recoverable failed attempt economical; do not optimize only for first-pass success. Conversely, expensive Astra handholding, hard-to-detect errors, or costly recovery can erase the benefit. Keep the user's product and architectural decisions with Astra.
-
-Official basis, checked 2026-09-23: [Codex model guidance](https://developers.openai.com/codex/models) recommends starting with Luna High and Sol Medium; [GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) emphasizes focused, high-volume tasks, and [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) emphasizes complex coding and agentic workflows. These starting efforts apply after choosing a model; they do not establish which model is cheapest for a task. Luna-first routing is this skill's cost-oriented policy, not an official comparative performance claim. API parameter defaults are distinct from Codex recommendations, and effort levels do not map exactly across generations. Preserve the user's chosen Astra effort. Do not re-fetch these references on every delegation unless availability or guidance needs updating.
+Official basis, checked 2026-09-23: [Codex model guidance](https://developers.openai.com/codex/models) recommends starting with Luna High and Sol Medium; [GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) emphasizes focused, high-volume tasks, and [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) emphasizes complex coding and agentic workflows. These starting efforts do not establish which model is cheapest for a task. Favoring Luna when both fit is this skill's cost preference, not an official comparative performance claim. API parameter defaults are distinct from Codex recommendations, and effort levels do not map exactly across generations. Preserve the user's chosen Astra effort. Do not re-fetch these references on every delegation unless availability or guidance needs updating.
 
 Exclude Terra and Astra from the default child route. Use Terra only when explicitly requested or when task-specific measured results support it. Use an Astra child only when explicitly requested or when a bounded independent high-stakes judgment clearly warrants it; explain that exception briefly. Usually the existing Astra lead handles the hardest judgment itself. Do not default children to `ultra`; GPT-6 Luna does not support Ultra.
 
@@ -69,13 +60,13 @@ Provide only the necessary handoff:
 - Ask for the result or artifact, exact evidence locations, checks actually run and their outcomes, and remaining uncertainty. Request a concise summary, not a transcript. Do not request private chain-of-thought.
 - State: execute only this assignment, do not spawn children, and report concrete blockers instead of repeatedly exploring the same dead end.
 
-Before dispatch, give one brief explanation in the user's language, such as: "接口已经明确，这部分交给 Luna/high 补齐边界测试；我继续处理集成。" For higher-effort Luna, name the reasoning burden; for any Sol child, including Sol/medium, name the concrete Sol selection reason. Include the selected effort. Keep this to a short decision summary, not a scoring exercise.
+Before dispatch, briefly state the assignment, model, and effort in the user's language, such as: "这部分交给 Luna/max 补齐状态机边界测试；我继续处理集成。" A short rationale can help when the choice matters, but do not produce a model-selection report or extra justification for Sol or Max.
 
 ## Accept, repair, or escalate
 
 Review the actual deliverable and material evidence. Run proportionate integration or acceptance checks; do not redo all of the child's exploration or automatically hire another reviewer. Independent review is useful when risk justifies it, not on every task. The lead remains responsible for the final result.
 
-On failure, distinguish missing information, tooling/environment problems, and substantive reasoning/implementation errors. Fix missing inputs or environment issues without automatically increasing model cost. For a localized correctable error, give one targeted correction to the same child when that is likely cheaper than replacement. If a substantive capability gap remains, apply the Sol selection criteria and hand over existing artifacts, exact failed checks, and unresolved work, or resolve it as the lead. Do not automatically upgrade after any failed check, repeatedly retry the same dead end, or restart completed work through every model and effort level. When Sol is blocked, Astra should reassess the approach before spawning more workers. Do not stop an authorized task solely because a trial cost heuristic was reached.
+On failure, distinguish missing information, tooling/environment problems, and reasoning/implementation errors. Fix missing inputs or environmental problems rather than assuming a stronger model will resolve them. Choose the useful next step: clarify the assignment, give a targeted correction, adjust effort, switch models, or handle the unresolved part as the lead. No fixed number of corrections or demonstrated capability gap is required before changing course. Preserve existing artifacts, failed checks, and useful findings when handing work over. Avoid automatic upgrades after every failed check, repeated dead-end retries, and restarting completed work. Do not stop an authorized task solely because a trial cost heuristic was reached.
 
 ## Keep the experiment observable and light
 
