@@ -1,6 +1,6 @@
 ---
 name: subagent-steward
-description: "Choose whether to delegate substantial implementation, debugging, research, or review under an Astra lead. Balance Luna, Sol, and reasoning effort by task needs and total cost, favoring Luna when both fit. Use for independent subtask planning or explicit cost-aware delegation; skip routine conversation and tiny edits."
+description: "Delegate substantial implementation, debugging, research, or review as complete assignments under an Astra lead. Choose Luna/Sol and effort flexibly, allow useful nested delegation, and reduce repeated supervision while preserving necessary verification. Skip routine conversation and tiny edits."
 ---
 
 # 子智能体管家 · Subagent Steward
@@ -11,13 +11,21 @@ This skill requests delegation when the conditions below are met, and explicitly
 
 ## Decide whether to delegate
 
-Make a brief decision, not a separate planning exercise. Complete tiny edits, short answers, and tightly coupled work directly. Spawn only for a bounded independent task when the lead has useful nonduplicative work to do alongside it and the expected execution, context isolation, or independent review benefit justifies dispatch and acceptance overhead. Do not invent parallel work to justify spawning.
+Make a brief decision, not a separate planning exercise. Complete tiny edits, short answers, or work that is better handled directly without forcing delegation. Delegate bounded independent work when the expected execution, context isolation, or review benefit is worth dispatch and acceptance overhead. Follow live tool conditions, including useful concurrent parent work when required. Do not invent parallel work or duplicate a worker's investigation merely to keep the parent busy.
 
 Set no fixed preferred number or skill-level cap on children. Choose concurrency from the number of ready independent tasks, ownership conflicts, expected marginal benefit, dispatch/acceptance overhead, and the live runtime's available capacity. Spawn additional children when each has worthwhile independent work; do not fill slots merely because they exist. When runtime capacity is exhausted, queue remaining work and reuse available children as supported. Do not bypass runtime limits.
 
-Children must not delegate further unless the user explicitly requests nested delegation. A child loading this skill should execute its assignment and return blockers to the lead, not become another coordinator.
+The primary agent can call Luna or Sol directly; Sol is not a mandatory intermediary. This skill also requests useful nested delegation when the current worker's native tools and instructions allow it. A Sol worker may, for example, assign an independent part to Luna while doing useful implementation or integration itself. Any worker applying this policy keeps its assigned model and role; it does not assume the identity or authority of the primary Astra. Nesting is an option, not a hierarchy to build on every task.
+
+The delegating worker retains ownership: give descendants non-overlapping responsibility within the original assignment and authorization, pass necessary context and constraints, integrate their results, and return one coherent deliverable to its parent. Do not hand the entire assignment through successive coordinators without useful work at each level. Respect shared runtime capacity, nesting restrictions, and unavailable tools. If nested delegation is unavailable or not worthwhile, execute directly or report a real blocker; do not create alternate tasks or processes to evade limits.
 
 Keep unresolved product decisions and high-impact tradeoffs with the lead. Give workers enough autonomy to execute an agreed technical objective without asking Astra to approve each step. Do not make Astra pre-solve the implementation or micromanage a worker merely to keep it on Luna; count that extra lead work against the expected savings.
+
+## Hand over complete execution when useful
+
+Prefer a coherent assignment that includes investigation, implementation, relevant tests, and fixing issues within scope, rather than separate handoffs for each command or edit. Either Luna or Sol can own such an assignment. Investigate enough to communicate goals, constraints, and acceptance needs without routinely solving all implementation details first. Investigate further whenever ambiguity or risk makes that necessary; do not delegate unresolved user intent as if it were settled.
+
+Let the assigned worker handle ordinary technical choices and local repair. Bring material requirement changes, consequential tradeoffs outside the assignment, and genuine blockers back to the parent. Avoid step-by-step permission requests for work already authorized. Return a concise result with changed artifacts, checks and outcomes, material risks, and evidence locations; preserve details that could change the parent's decision and make supporting logs accessible when useful.
 
 ## Choose model and effort for total completion cost
 
@@ -58,16 +66,16 @@ Provide only the necessary handoff:
 - For code discovery, follow applicable project discovery instructions and pass the evidence already collected. If the project uses codebase-memory, include project/freshness, relevant graph and coverage evidence, source fallbacks, and unresolved gaps. This skill does not require that plugin; use available source tools when it is absent. Do not create or index unrelated projects merely to delegate non-code work.
 - For edits, assign file/module ownership. State that others share the codebase, that their changes must not be reverted, and that the child should accommodate concurrent changes. Avoid overlapping writers.
 - Ask for the result or artifact, exact evidence locations, checks actually run and their outcomes, and remaining uncertainty. Request a concise summary, not a transcript. Do not request private chain-of-thought.
-- State: execute only this assignment, do not spawn children, and report concrete blockers instead of repeatedly exploring the same dead end.
+- State the assignment boundaries and that useful nested delegation may follow this policy where supported. Descendants inherit those boundaries; the delegating worker remains responsible for integration, validation, and reporting material blockers.
 
 Before dispatch, briefly state the assignment, model, and effort in the user's language, such as: "这部分交给 Luna/max 补齐状态机边界测试；我继续处理集成。" A short rationale can help when the choice matters, but do not produce a model-selection report or extra justification for Sol or Max.
 
 ## Accept, repair, or escalate
 
-Review the actual deliverable and material evidence. Run proportionate integration or acceptance checks; do not redo all of the child's exploration or automatically hire another reviewer. Independent review is useful when risk justifies it, not on every task. The lead remains responsible for the final result.
+Review the actual deliverable and material evidence against the user's requirements, focusing on consequential behavior, interfaces, integration, and unresolved risks. Use the worker's checks as evidence rather than repeating every step by default. This is not permission to trust a summary blindly: inspect artifacts and run additional checks when needed. If results are ambiguous, surprising, inconsistent, or high risk, investigate deeply, repeat verification, request independent review, or take over. No file-reading, verification, or reasoning quota limits that judgment. The lead remains responsible for the final result.
 
 On failure, distinguish missing information, tooling/environment problems, and reasoning/implementation errors. Fix missing inputs or environmental problems rather than assuming a stronger model will resolve them. Choose the useful next step: clarify the assignment, give a targeted correction, adjust effort, switch models, or handle the unresolved part as the lead. No fixed number of corrections or demonstrated capability gap is required before changing course. Preserve existing artifacts, failed checks, and useful findings when handing work over. Avoid automatic upgrades after every failed check, repeated dead-end retries, and restarting completed work. Do not stop an authorized task solely because a trial cost heuristic was reached.
 
 ## Keep the experiment observable and light
 
-When children were used, add a short final accounting if useful: selected model/effort, work delegated, validation outcome, and any escalation. Do not add a routing report to routine answers. Judge savings using total lead-plus-child usage, retries, acceptance work, and result quality. API per-token price ratios do not establish Codex plan-credit ratios or total task savings. Report actual usage/cost only if the runtime or provider exposes it; do not invent token counts, savings percentages, or a hard budget guarantee. Avoid persistent logs or extra artifacts unless requested.
+When children were used, add a short final accounting if useful: selected model/effort, work delegated, validation outcome, and any escalation. Do not add a routing report to routine answers. Judge savings using total lead-plus-descendant usage, retries, acceptance work, and result quality. Track the lead's absolute consumption when available, not a target percentage; do not reduce necessary work to meet a token-share quota. API per-token price ratios do not establish Codex plan-credit ratios or total task savings. Report actual usage/cost only if the runtime or provider exposes it; do not invent token counts, savings percentages, or a hard budget guarantee. Avoid persistent logs or extra artifacts unless requested.

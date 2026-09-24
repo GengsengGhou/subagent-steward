@@ -1,6 +1,6 @@
 # 子智能体管家 · Subagent Steward
 
-让 Codex 按任务需要决定是否委派，灵活选择 Luna、Sol 和推理强度；两者都适合时，考虑成本优先 Luna。为偏好 Astra 主导、控制执行成本的用户设计，也尊重你选择的其他主模型。
+让 Codex 按任务需要完整交办执行工作，灵活选择 Luna、Sol 和推理强度，并在有收益、运行时支持时继续委派；两者都适合时，考虑成本优先 Luna。为偏好 Astra 主导、控制执行成本的用户设计，也尊重你选择的其他主模型。
 
 这是一个社区 Codex skill，不是 OpenAI 官方项目。它提供调度指导，不是独立调度服务，也不提供硬预算限制或节省费用的保证。
 
@@ -15,7 +15,17 @@
 | 简单机械任务 | 可以降低 Luna 推理强度 |
 | 任一模型需要深入推演或检查 | 按需选择 xhigh 或 max，无额外举证门槛 |
 
-小任务直接完成。可独立推进的子任务才委派，数量由收益、依赖、编辑冲突和运行时容量决定，没有技能自设的固定并发上限。子智能体默认不继续派生。Terra 和 Astra 不进入常规子模型路线。
+小任务直接完成。可独立推进的子任务才委派，数量由收益、依赖、编辑冲突和运行时容量决定，没有技能自设的固定并发上限。Terra 和 Astra 不进入常规子模型路线。
+
+### 交办完整工作，保留必要判断
+
+- Astra 始终负责与你沟通、关键决策和最终交付，不要求手动切换主模型。Astra 可以直接调用 Luna 或 Sol。
+- 适合时，让执行者完整负责调查、实现、相关测试和范围内修复，减少每一步都回到 Astra 的交接。Luna、Sol 都可以负责完整任务，并非所有工作必须经过 Sol。
+- 运行时支持且有实际收益时，子智能体可继续委派。例如 Sol 自己处理实现与集成，同时让 Luna 完成一个独立部分。派发者负责整合和检查，再向上交付完整结果。
+- 后代任务沿用原始范围和授权，避免重叠编辑、重复探索或把整项工作逐层转包。技能不增加固定层数上限，但所有派发仍遵守运行时的并发、深度和独立工作条件。工具不支持时，执行者自行完成或报告真实阻塞。
+- Astra 根据实际产物和证据作必要验收，不默认重做每一步；遇到歧义、异常、矛盾或高风险时，仍可深入调查、重复验证、要求独立审查或亲自接手。
+
+这些是分工偏好，不限制主智能体读多少文件、运行多少检查或必须达到某个 token 占比。改善成本主要依靠减少重复执行和频繁交接，不能保证能力完全不受影响或费用必然下降。评估时同时看交付质量、返工、用户纠正次数、总费用及主智能体绝对消耗。
 
 上表是判断参考，不是严格的准入条件。主智能体根据范围、不确定性、推理深度、验收难度、预期指挥成本和时间作合理选择。觉得 Sol 更适合就可以直接使用，无需先证明 Luna 不行，也不必先积累失败记录或成本数据。
 
@@ -60,11 +70,11 @@ high、xhigh、max 不是必须逐级尝试的阶梯。需要深度思考时，L
 
 ## 更新与移除
 
-更新前保留本地定制，再安装或复制新版本。移除时删除安装目录中的 `subagent-steward` 文件夹，并移除自己添加的可选 AGENTS.md 片段。无需调整主模型配置。
+更新前保留本地定制，再安装或复制新版本。若以前添加过自动调用片段，请同步替换为 [当前片段](examples/AGENTS.snippet.md)；旧版片段中禁止子智能体继续委派的规则会阻止新策略生效。只替换本技能的标记块，保留其他指令。移除时删除安装目录中的 `subagent-steward` 文件夹，并移除自己添加的可选 AGENTS.md 片段。无需调整主模型配置。
 
 ## English overview
 
-Subagent Steward is a community Codex skill for cost-aware delegation under an Astra lead. It preserves the user's primary model and effort and uses **GPT-6 Luna / high** and **GPT-6 Sol / medium** as flexible starting points. Choose model and effort using task scope, uncertainty, reasoning depth, likely supervision, time, and total cost. Favor Luna when both fit, but freely select Sol or Max without a proof requirement, prior failed attempt, or mandatory effort ladder. The skill imposes no fixed worker-count cap beyond runtime capacity. Actual savings remain unmeasured.
+Subagent Steward is a community Codex skill for cost-aware delegation under an Astra lead. It preserves the user's primary model and effort and uses **GPT-6 Luna / high** and **GPT-6 Sol / medium** as flexible starting points. Favor Luna when both fit, but freely select Sol or Max without a proof requirement or prior failed attempt. Delegate coherent investigation, implementation, testing, and repair assignments when useful. Astra can call either model directly; workers may delegate independent parts when supported, retaining responsibility for scope, integration, and checks. There is no mandatory coordinator layer or skill-imposed count/depth quota; live runtime restrictions still apply. The lead may always investigate deeply or take over when needed. Actual savings and quality effects remain unmeasured. When upgrading, replace any older optional AGENTS.md block that prohibits nested delegation.
 
 To install, ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward." Invoke it with `$subagent-steward`. For optional recurring use, merge the portable [AGENTS.md snippet](examples/AGENTS.snippet.md) into your own instructions. No extra API key or plugin is required; native subagent tooling and supported models are required for delegation. Actual savings are unmeasured.
 

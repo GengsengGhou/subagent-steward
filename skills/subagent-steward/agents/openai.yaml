@@ -1,7 +1,7 @@
 interface:
   display_name: "子智能体管家"
-  short_description: "Flexible Luna and Sol delegation with cost awareness"
-  default_prompt: "使用 $subagent-steward 完成任务：保留 Astra 主导，按需委派，灵活选择 Luna、Sol 和推理强度；两者都适合时考虑成本优先 Luna。"
+  short_description: "Complete task handoffs with flexible Luna/Sol delegation"
+  default_prompt: "使用 $subagent-steward 完成任务：保留 Astra 主导，按需完整交办执行工作，灵活选择 Luna、Sol 和推理强度，允许有收益且运行时支持的嵌套委派，保留必要验收。"
 
 policy:
   allow_implicit_invocation: true
