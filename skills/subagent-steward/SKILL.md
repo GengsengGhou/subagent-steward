@@ -1,17 +1,17 @@
 ---
 name: subagent-steward
-description: "Delegate substantial implementation, debugging, research, or review as complete assignments under an Astra lead. Choose Luna/Sol and effort flexibly, allow useful nested delegation, and reduce repeated supervision while preserving necessary verification. Skip routine conversation and tiny edits."
+description: "Economy variant: proactively delegate substantial implementation, debugging, research, or review as complete Luna/Sol assignments under an Astra lead. Choose effort flexibly and preserve necessary verification. Skip routine conversation and tiny edits."
 ---
 
-# 子智能体管家 · Subagent Steward
+# 子智能体管家 · Subagent Steward · Economy
 
-Keep the user's chosen primary model and reasoning effort. The intended lead is Astra: it owns user communication, requirements, architecture, delegation, acceptance, and final delivery. Do not switch the lead to save money. When another primary model is explicitly selected, respect it.
+Keep the user's chosen primary model and reasoning effort. The intended lead is Astra: it owns user communication, requirements, key architecture decisions, delegation, purpose- and risk-oriented acceptance, and final delivery. Workers can make local technical design decisions within their assignment. Do not switch the lead to save money. When another primary model is explicitly selected, respect it.
 
-This skill requests delegation when the conditions below are met, and explicitly instructs selection of the subagent models and reasoning efforts below. The Luna/high and Sol/medium starting points follow official Codex guidance; the task-routing suggestions are local trial policy, not measured cost or quality guarantees. Explicit user choices take precedence.
+This skill requests early delegation of substantial execution when the conditions below are met, and explicitly instructs selection of the subagent models and reasoning efforts below. The Luna/high and Sol/medium starting points follow official Codex guidance; the task-routing suggestions are local trial policy, not measured cost or quality guarantees. Explicit user choices take precedence.
 
 ## Decide whether to delegate
 
-Make a brief decision, not a separate planning exercise. Complete tiny edits, short answers, or work that is better handled directly without forcing delegation. Delegate bounded independent work when the expected execution, context isolation, or review benefit is worth dispatch and acceptance overhead. Follow live tool conditions, including useful concurrent parent work when required. Do not invent parallel work or duplicate a worker's investigation merely to keep the parent busy.
+Make a brief decision, not a separate planning exercise. Once the user's intent and authorized scope are clear, proactively look for a substantial, bounded execution assignment that can be handed to a Luna or Sol worker. Prefer delegating that work early, including investigation, implementation, relevant tests, and local repair, while the lead makes useful concurrent progress on requirements, key decisions, acceptance criteria, or another independent part. Follow live tool conditions for bounded independence and useful parent work. Complete tiny edits, short answers, and work that is better handled directly without forcing delegation; do not invent parallel work or duplicate a worker's investigation merely to keep the parent busy.
 
 Set no fixed preferred number or skill-level cap on children. Choose concurrency from the number of ready independent tasks, ownership conflicts, expected marginal benefit, dispatch/acceptance overhead, and the live runtime's available capacity. Spawn additional children when each has worthwhile independent work; do not fill slots merely because they exist. When runtime capacity is exhausted, queue remaining work and reuse available children as supported. Do not bypass runtime limits.
 
@@ -19,11 +19,11 @@ The primary agent can call Luna or Sol directly; Sol is not a mandatory intermed
 
 The delegating worker retains ownership: give descendants non-overlapping responsibility within the original assignment and authorization, pass necessary context and constraints, integrate their results, and return one coherent deliverable to its parent. Do not hand the entire assignment through successive coordinators without useful work at each level. Respect shared runtime capacity, nesting restrictions, and unavailable tools. If nested delegation is unavailable or not worthwhile, execute directly or report a real blocker; do not create alternate tasks or processes to evade limits.
 
-Keep unresolved product decisions and high-impact tradeoffs with the lead. Give workers enough autonomy to execute an agreed technical objective without asking Astra to approve each step. Do not make Astra pre-solve the implementation or micromanage a worker merely to keep it on Luna; count that extra lead work against the expected savings.
+Keep user communication, key product decisions, purpose- and risk-oriented acceptance, and final delivery with the lead. Give workers enough autonomy to execute an agreed technical objective without asking Astra to approve each step. Do not make Astra pre-solve the implementation or micromanage a worker merely to keep it on Luna; count that extra lead work against the expected savings. The lead may investigate, code, verify, or take over whenever useful; delegation is a preference for substantial routine execution, not a restriction on the lead's work.
 
 ## Hand over complete execution when useful
 
-Prefer a coherent assignment that includes investigation, implementation, relevant tests, and fixing issues within scope, rather than separate handoffs for each command or edit. Either Luna or Sol can own such an assignment. Investigate enough to communicate goals, constraints, and acceptance needs without routinely solving all implementation details first. Investigate further whenever ambiguity or risk makes that necessary; do not delegate unresolved user intent as if it were settled.
+Prefer a coherent assignment that includes investigation, implementation, relevant tests, and fixing issues within scope, rather than separate handoffs for each command or edit. Either Luna or Sol can own such an assignment. Clarify goals, constraints, and acceptance needs without routinely conducting a broad lead investigation or solving implementation details first. Investigate further whenever ambiguity or risk makes that necessary; do not delegate unresolved user intent as if it were settled. When useful, send targeted technical follow-ups to the worker that owns the relevant work and let it make the local repair.
 
 Let the assigned worker handle ordinary technical choices and local repair. Bring material requirement changes, consequential tradeoffs outside the assignment, and genuine blockers back to the parent. Avoid step-by-step permission requests for work already authorized. Return a concise result with changed artifacts, checks and outcomes, material risks, and evidence locations; preserve details that could change the parent's decision and make supporting logs accessible when useful.
 
