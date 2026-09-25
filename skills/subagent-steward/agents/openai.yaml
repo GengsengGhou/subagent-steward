@@ -1,7 +1,7 @@
 interface:
   display_name: "子智能体管家 · 经济版"
-  short_description: "Delegate substantial work with flexible Luna/Sol effort"
-  default_prompt: "使用 $subagent-steward 完成任务：保留 Astra 主导，及早完整交办实质执行工作，灵活选择 Luna、Sol 和推理强度，保留必要验收。"
+  short_description: "Luna/Sol own substantial execution under an Astra lead"
+  default_prompt: "使用 $subagent-steward 完成任务：Astra 主导决策和验收；工具条件允许时，由 Luna 或 Sol 默认承担实质执行、测试及范围内修复。"
 
 policy:
   allow_implicit_invocation: true

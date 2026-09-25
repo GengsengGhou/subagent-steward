@@ -3,27 +3,27 @@
 本仓库有两个同名技能变体，一次只安装一个：
 
 - `main` / `v0.4.0`：通用版，按任务判断是否委派。
-- `economy` / `v0.4.0-economy.1`：成本导向试用版；需求和授权范围明确后，实质执行工作优先及早完整委派。它是试验版本，不代表优于通用版；节省效果与交付质量变化尚未测量，也无保证。
+- `economy` / `v0.4.0-economy.2`：成本导向试用版；原生委派条件允许时，由 Luna／Sol **默认负责**实质性常规执行。相较 economy.1 的「及早考虑委派」，本版把执行、测试和范围内修复明确交给同一负责人。节省效果与交付质量变化尚未测量，也无保证。
 
 这是社区 Codex skill，不是 OpenAI 官方项目或独立调度服务。
 
 ## 经济版怎么分工
 
-- Astra 保留与你沟通、需求澄清、关键决策、必要验收和交付；不需要手动切换主模型。
-- 原生工具条件允许时，更主动地让 Luna／Sol 完整承担常规调查、实现、测试和范围内修复。减少 Astra 预先解题、逐步监督和重复调查；局部技术选择与后续修复尽量由执行者负责。
+- Astra 保留与你沟通、需求澄清、关键产品或架构决策、针对性验收和交付；通常只做准确交办所需的调查，需要时可深入调查，不需要手动切换主模型。
+- 原生工具条件允许时，Luna／Sol 默认完整承担有界调查、约定范围内的技术设计、实现、有意义的测试、局部修复和技术跟进。Astra 不常规地预先解题、重复广泛调查、并行实现相同范围或接管局部修复；同一负责人优先处理后续问题。
 - 沿用 0.4.0 的灵活选择：两者都适合时偏好 Luna；Luna/high、Sol/medium 是参考起点，xhigh/max 可按需直接选，Sol 不需要额外举证或先让 Luna 失败。
 - Astra 可以直接调用任一模型；有实际收益且运行时支持时，执行者也可继续委派独立部分，并负责整合和验证。没有必经的 Sol 中间层或技能自设的并发、深度上限。
-- 小任务可以直接完成。Astra 按实际产物和风险验收，遇到疑点仍可深入调查、重复检查或亲自接管，不设 token 占比或工作量配额。
+- 小任务可以直接完成。Astra 检查实际产物和证据，遇到歧义、风险或疑点可随时深入调查、重复检查或亲自接管；独立复核按风险使用，不是每项工作必备。不设 token 占比或工作量配额。
 
 ## 安装或切换
 
 把下面这句话发给 Codex：
 
 ```text
-使用 skill-installer 从 https://github.com/GengsengGhou/subagent-steward 安装 skills/subagent-steward，指定 ref 为 v0.4.0-economy.1。若已安装同名技能，先备份个人修改，再替换为经济版；若有本技能的 AGENTS.md 标记块，同步替换为该版本片段，保留其他指令。
+使用 skill-installer 从 https://github.com/GengsengGhou/subagent-steward 安装 skills/subagent-steward，指定 ref 为 v0.4.0-economy.2。若已安装同名技能，先备份个人修改，再替换为经济版；若有本技能的 AGENTS.md 标记块，同步替换为该版本片段，保留其他指令。
 ```
 
-推荐安装经济版的固定预发布版本：下载 [v0.4.0-economy.1 ZIP](https://github.com/GengsengGhou/subagent-steward/archive/refs/tags/v0.4.0-economy.1.zip)，并将其中的 `skills/subagent-steward` 放入 `$CODEX_HOME/skills/subagent-steward`（未设置时通常为 `~/.codex/skills/subagent-steward`）。若要跟踪经济分支更新，请使用明确指向 [`economy` 分支技能目录](https://github.com/GengsengGhou/subagent-steward/tree/economy/skills/subagent-steward) 的版本。
+推荐安装经济版的固定预发布版本：下载 [v0.4.0-economy.2 ZIP](https://github.com/GengsengGhou/subagent-steward/archive/refs/tags/v0.4.0-economy.2.zip)，并将其中的 `skills/subagent-steward` 放入 `$CODEX_HOME/skills/subagent-steward`（未设置时通常为 `~/.codex/skills/subagent-steward`）。若要跟踪经济分支更新，请使用明确指向 [`economy` 分支技能目录](https://github.com/GengsengGhou/subagent-steward/tree/economy/skills/subagent-steward) 的版本。
 
 安装或切换前备份个人定制。两个变体使用相同技能名和安装目录，应先替换该目录中的旧版本；若曾添加可选 AGENTS 片段，也请替换 `subagent-steward` 标记块中的内容，同时保留块外定制。回退通用版时，安装 [v0.4.0 ZIP](https://github.com/GengsengGhou/subagent-steward/archive/refs/tags/v0.4.0.zip) 中的技能目录，并按需恢复对应的 AGENTS 片段。
 
@@ -41,13 +41,13 @@
 
 ## English overview
 
-This repository offers two variants with the same skill name; install only one at a time. `main` / `v0.4.0` is the general edition and delegates according to task needs. `economy` / `v0.4.0-economy.1` is a cost-oriented trial that favors early, complete delegation of substantial execution after intent and scope are clear. It is not a superior replacement, and savings or quality effects have not been measured or guaranteed.
+This repository offers two variants with the same skill name; install only one at a time. `main` / `v0.4.0` is the general edition. `economy` / `v0.4.0-economy.2` is a cost-oriented trial. Unlike economy.1's early encouragement to delegate, economy.2 makes capable Luna/Sol workers the default owners of substantial routine execution when native delegation conditions allow. Savings and quality effects have not been measured or guaranteed.
 
-Keep Astra as the lead for communication, key decisions, necessary acceptance, and delivery. Luna/Sol own coherent investigation, implementation, testing, and repair; the lead retains full ability to investigate or take over. Model and effort selection stays flexible, with Luna favored when both fit. Useful nested delegation is allowed, subject to native tools and runtime limits, including useful concurrent parent work where required. No fixed hierarchy or token quota is imposed.
+Keep Astra as the lead for scope, key product or architecture decisions, targeted acceptance, communication, and delivery. Workers own coherent discovery, technical design within agreed scope, implementation, meaningful testing, local repair, and technical follow-ups. The lead does the discovery needed for accurate dispatch, inspects real artifacts and evidence, and can investigate or take over whenever useful. Model and effort selection stays flexible, with Luna favored when both fit. Independent review is driven by material risk. Useful nested delegation respects native tool conditions, including genuine concurrent parent work where required; there is no fixed hierarchy or token quota.
 
-Ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward with ref v0.4.0-economy.1. Back up existing customizations before replacing the installed variant, and update its optional marked AGENTS block if present."
+Ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward with ref v0.4.0-economy.2. Back up existing customizations before replacing the installed variant, and update its optional marked AGENTS block if present."
 
-For a reproducible economy install or update, use the [v0.4.0-economy.1 ZIP](https://github.com/GengsengGhou/subagent-steward/archive/refs/tags/v0.4.0-economy.1.zip) and copy `skills/subagent-steward` into `$CODEX_HOME/skills/subagent-steward` (usually `~/.codex/skills/subagent-steward`). To track that branch, use the [`economy` branch skill directory](https://github.com/GengsengGhou/subagent-steward/tree/economy/skills/subagent-steward). Back up personal customizations before switching. Replace the installed skill folder, and replace the optional marked AGENTS block if present while preserving customizations outside it. To roll back, install the skill folder from the explicitly pinned [v0.4.0 ZIP](https://github.com/GengsengGhou/subagent-steward/archive/refs/tags/v0.4.0.zip).
+For a reproducible economy install or update, use the [v0.4.0-economy.2 ZIP](https://github.com/GengsengGhou/subagent-steward/archive/refs/tags/v0.4.0-economy.2.zip) and copy `skills/subagent-steward` into `$CODEX_HOME/skills/subagent-steward` (usually `~/.codex/skills/subagent-steward`). To track that branch, use the [`economy` branch skill directory](https://github.com/GengsengGhou/subagent-steward/tree/economy/skills/subagent-steward). Back up personal customizations before switching. Replace the installed skill folder, and replace the optional marked AGENTS block if present while preserving customizations outside it. To roll back, install the skill folder from the explicitly pinned [v0.4.0 ZIP](https://github.com/GengsengGhou/subagent-steward/archive/refs/tags/v0.4.0.zip).
 
 Invoke the skill with `$subagent-steward`. Automatic invocation remains enabled but is not guaranteed for every task. For consistent use, merge the optional [AGENTS snippet](examples/AGENTS.snippet.md) into your project or personal instructions.
 
