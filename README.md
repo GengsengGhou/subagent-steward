@@ -4,6 +4,13 @@
 
 这是一个社区 Codex skill，不是 OpenAI 官方项目。它提供调度指导，不是独立调度服务，也不提供硬预算限制或节省费用的保证。
 
+## 版本与开发路线
+
+- **默认版 v1.0.0**：维护于 `main`，以原 v0.4.0 的技能策略作为稳定基线；本次整理只更新发布和安装说明，技能内容不变。
+- **经济版（开发中）**：维护于 [`economy`](https://github.com/GengsengGhou/subagent-steward/tree/economy)，继续开发和实际试用，暂不发布正式版本。达到预期后再以 `economy-v1.0.0` 等独立标签发布。
+
+日常调整通过分支提交维护，不为每次修改创建 Release。早期 Release 已转为草稿，原标签和提交保留，方便追溯。两条路线使用相同技能名 `$subagent-steward`，同一环境只安装一种；切换前保留个人定制，并同步对应的可选 AGENTS.md 片段。
+
 ## 怎么分工
 
 | 场景 | 选择参考 |
@@ -38,10 +45,10 @@ high、xhigh、max 不是必须逐级尝试的阶梯。需要深度思考时，L
 把下面这句话发给 Codex：
 
 ```text
-使用 skill-installer 从 https://github.com/GengsengGhou/subagent-steward 安装 skills/subagent-steward 技能。
+使用 skill-installer 从 https://github.com/GengsengGhou/subagent-steward 安装 skills/subagent-steward 技能，指定 ref 为 v1.0.0。
 ```
 
-也可直接提供 [技能目录链接](https://github.com/GengsengGhou/subagent-steward/tree/main/skills/subagent-steward)。该路径包含完整的 `SKILL.md` 和 `agents/openai.yaml`。标准 skill-installer 会安装到 `$CODEX_HOME/skills/subagent-steward`；未设置 `CODEX_HOME` 时通常是 `~/.codex/skills/subagent-steward`。若同名技能已存在，先确认是否有个人修改，再决定更新，避免直接覆盖。
+也可直接提供 [技能目录链接](https://github.com/GengsengGhou/subagent-steward/tree/v1.0.0/skills/subagent-steward)。该路径包含完整的 `SKILL.md` 和 `agents/openai.yaml`。标准 skill-installer 会安装到 `$CODEX_HOME/skills/subagent-steward`；未设置 `CODEX_HOME` 时通常是 `~/.codex/skills/subagent-steward`。若同名技能已存在，先确认是否有个人修改，再决定更新，避免直接覆盖。
 
 也可以下载仓库 ZIP，把其中的 `skills/subagent-steward` 整个文件夹复制到上述技能目录。安装后在下一轮对话中检查是否识别到技能；若客户端尚未刷新，重新打开任务后再试。
 
@@ -74,9 +81,11 @@ high、xhigh、max 不是必须逐级尝试的阶梯。需要深度思考时，L
 
 ## English overview
 
+The default stable release is **v1.0.0**, with the same skill content as v0.4.0. The `economy` branch remains under development and real-task evaluation; a future independent release may use `economy-v1.0.0`. Routine edits stay on branches instead of becoming releases. Earlier releases are drafts; their tags and commits are preserved. Install only one variant at a time.
+
 Subagent Steward is a community Codex skill for cost-aware delegation under an Astra lead. It preserves the user's primary model and effort and uses **GPT-6 Luna / high** and **GPT-6 Sol / medium** as flexible starting points. Favor Luna when both fit, but freely select Sol or Max without a proof requirement or prior failed attempt. Delegate coherent investigation, implementation, testing, and repair assignments when useful. Astra can call either model directly; workers may delegate independent parts when supported, retaining responsibility for scope, integration, and checks. There is no mandatory coordinator layer or skill-imposed count/depth quota; live runtime restrictions still apply. The lead may always investigate deeply or take over when needed. Actual savings and quality effects remain unmeasured. When upgrading, replace any older optional AGENTS.md block that prohibits nested delegation.
 
-To install, ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward." Invoke it with `$subagent-steward`. For optional recurring use, merge the portable [AGENTS.md snippet](examples/AGENTS.snippet.md) into your own instructions. No extra API key or plugin is required; native subagent tooling and supported models are required for delegation. Actual savings are unmeasured.
+To install, ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward with ref v1.0.0." Invoke it with `$subagent-steward`. For optional recurring use, merge the portable [AGENTS.md snippet](examples/AGENTS.snippet.md) into your own instructions. No extra API key or plugin is required; native subagent tooling and supported models are required for delegation. Actual savings are unmeasured.
 
 ## License
 
