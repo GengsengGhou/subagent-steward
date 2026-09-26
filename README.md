@@ -7,9 +7,9 @@
 ## 版本与开发路线
 
 - **默认版 v1.0.0**：维护于 `main`，以原 v0.4.0 的技能策略作为稳定基线；本次整理只更新发布和安装说明，技能内容不变。
-- **经济版（开发中）**：维护于 [`economy`](https://github.com/GengsengGhou/subagent-steward/tree/economy)，继续开发和实际试用，暂不发布正式版本。达到预期后再以 `economy-v1.0.0` 等独立标签发布。
+- **经济版 economy-v1.0.0**：已[正式发布](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0)，维护于 [`economy`](https://github.com/GengsengGhou/subagent-steward/tree/economy)。由 Luna／Sol 默认负责完整执行，包括整合、测试及验收证据，Astra 保留关键决策和针对性验收；安装时明确指定 ref 为 `economy-v1.0.0`。
 
-日常调整通过分支提交维护，不为每次修改创建 Release。早期 Release 已转为草稿，原标签和提交保留，方便追溯。两条路线使用相同技能名 `$subagent-steward`，同一环境只安装一种；切换前保留个人定制，并同步对应的可选 AGENTS.md 片段。
+两条路线使用独立版本标签；GitHub 默认最新版本仍为通用版 `v1.0.0`。日常调整通过分支提交维护，不为每次修改创建 Release。早期 Release 已转为草稿，原标签和提交保留，方便追溯。两条路线使用相同技能名 `$subagent-steward`，同一环境只安装一种；切换前保留个人定制，并同步对应的可选 AGENTS.md 片段。
 
 ## 怎么分工
 
@@ -81,7 +81,7 @@ high、xhigh、max 不是必须逐级尝试的阶梯。需要深度思考时，L
 
 ## English overview
 
-The default stable release is **v1.0.0**, with the same skill content as v0.4.0. The `economy` branch remains under development and real-task evaluation; a future independent release may use `economy-v1.0.0`. Routine edits stay on branches instead of becoming releases. Earlier releases are drafts; their tags and commits are preserved. Install only one variant at a time.
+The default stable release is **v1.0.0**, with the same skill content as v0.4.0, and remains GitHub's latest release. The independent [economy-v1.0.0 release](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0) is now available from the `economy` track: Luna/Sol default to complete execution through integration, checks, and acceptance evidence, while Astra retains key decisions and targeted acceptance. Explicitly install ref `economy-v1.0.0` for that edition. Routine edits stay on branches instead of becoming releases. Earlier releases are drafts; their tags and commits are preserved. Install only one variant at a time, backing up customizations and switching the corresponding optional AGENTS block.
 
 Subagent Steward is a community Codex skill for cost-aware delegation under an Astra lead. It preserves the user's primary model and effort and uses **GPT-6 Luna / high** and **GPT-6 Sol / medium** as flexible starting points. Favor Luna when both fit, but freely select Sol or Max without a proof requirement or prior failed attempt. Delegate coherent investigation, implementation, testing, and repair assignments when useful. Astra can call either model directly; workers may delegate independent parts when supported, retaining responsibility for scope, integration, and checks. There is no mandatory coordinator layer or skill-imposed count/depth quota; live runtime restrictions still apply. The lead may always investigate deeply or take over when needed. Actual savings and quality effects remain unmeasured. When upgrading, replace any older optional AGENTS.md block that prohibits nested delegation.
 
