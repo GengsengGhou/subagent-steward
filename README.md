@@ -5,17 +5,18 @@
 - `main` / `v1.0.0`：通用版，按任务判断是否委派。
 - `economy`：成本导向开发分支，尚未正式发布；原生委派条件允许时，由 Luna／Sol **默认负责**实质性常规执行。节省效果与交付质量变化尚未测量，也无保证。
 
-先通过分支提交持续开发和实际试用，不为每次修改创建 Release。早期经济版 Release 已转为草稿，标签和代码历史保留；达到预期后再考虑以 `economy-v1.0.0` 等独立标签发布。此次整理不修改调度策略。
+先通过分支提交持续开发和实际试用，不为每次修改创建 Release。早期经济版 Release 已转为草稿，标签和代码历史保留；达到预期后再考虑以 `economy-v1.0.0` 等独立标签发布。
 
 这是社区 Codex skill，不是 OpenAI 官方项目或独立调度服务。
 
 ## 经济版怎么分工
 
 - Astra 保留与你沟通、需求澄清、关键产品或架构决策、针对性验收和交付；通常只做准确交办所需的调查，需要时可深入调查，不需要手动切换主模型。
-- 原生工具条件允许时，Luna／Sol 默认完整承担有界调查、约定范围内的技术设计、实现、有意义的测试、局部修复和技术跟进。Astra 不常规地预先解题、重复广泛调查、并行实现相同范围或接管局部修复；同一负责人优先处理后续问题。
+- 按实际工具条件，Luna／Sol 默认负责完整结果：按任务需要承担授权内的环境和工具准备、调查与技术设计、实现及接口整合、测试和验收脚本的创建与执行、范围内修复、远程命令与日志跟进、相关文档和交付证据。多人分工时明确有用的执行或整合负责人；不强制增加管理层。项目明确要求主智能体亲自整合或检查时仍遵守。
 - 沿用默认版的灵活选择：两者都适合时偏好 Luna；Luna/high、Sol/medium 是参考起点，xhigh/max 可按需直接选，Sol 不需要额外举证或先让 Luna 失败。
 - Astra 可以直接调用任一模型；有实际收益且运行时支持时，执行者也可继续委派独立部分，并负责整合和验证。没有必经的 Sol 中间层或技能自设的并发、深度上限。
-- 小任务可以直接完成。Astra 检查实际产物和证据，遇到歧义、风险或疑点可随时深入调查、重复检查或亲自接管；独立复核按风险使用，不是每项工作必备。不设 token 占比或工作量配额。
+- Astra 依据目标检查实际产物和可复现证据；验收不默认变成主智能体编写测试脚本、补接口代码或重跑全部测试。整合、测试或文档未完成时，通常交原负责人定向续做；存在实质风险、疑点或直接处理更合适时，可深入检查或接管。小任务直接完成，独立复核按风险使用，不设 token 占比或工作量配额。
+- 连贯执行阶段优先使用原生完成通知或有界等待，遵守运行时和用户进度沟通要求；不为保持忙碌反复检查、催问或循环调用工具。非紧急修正合并交办，及时传达改变决策的发现和阻塞。
 
 ## 试用开发分支或切换
 
@@ -35,7 +36,7 @@
 
 ## 运行边界
 
-需要原生子智能体工具，模型、推理强度、并发和嵌套能力以实时工具为准。若工具要求父智能体同时有独立的有用工作，经济版也遵守；不会为了委派制造工作或绕过限制。因此它不能保证 Astra 只沟通、不执行。
+需要原生子智能体工具，模型、推理强度、并发和嵌套能力以实时工具为准。只有工具实际要求时，父智能体才必须同时有独立的有用工作；没有这一要求时，可以等待负责人完成，不制造并行工作。嵌套同样依据实际条件。容量满时先复用合适的现有执行者或排队等待，不默认把全部执行转回 Astra；紧急、阻塞或直接处理更合适时仍可亲自执行，不终止活跃任务来腾出名额。因此它不能保证 Astra 只沟通、不执行。
 
 默认子模型为 `gpt-6-luna` / `gpt-6-sol`；不可用时可使用工具明确支持的对应 5.6 模型，或由主智能体处理，并说明有影响的回退。无需额外 API key 或插件。安装技能本身不修改主模型、`config.toml` 或全局 `AGENTS.md`；可选片段另行合并。
 
@@ -43,9 +44,11 @@
 
 ## English overview
 
-The default stable edition is `main` / `v1.0.0`. The `economy` branch is under development and real-task evaluation, with no current public release. Capable Luna/Sol workers own substantial routine execution when native delegation conditions allow. Savings and quality effects remain unmeasured. Earlier economy releases are drafts; their tags and history remain available. Routine edits stay on the branch; a future independent release may use `economy-v1.0.0`. This publishing cleanup does not change the delegation policy. Install only one variant at a time.
+The default stable edition is `main` / `v1.0.0`. The `economy` branch is under development and real-task evaluation, with no current public release. Capable Luna/Sol workers own substantial routine execution when native delegation conditions allow. Savings and quality effects remain unmeasured. Earlier economy releases are drafts; their tags and history remain available. Routine edits stay on the branch; a future independent release may use `economy-v1.0.0`. Install only one variant at a time.
 
-Keep Astra as the lead for scope, key product or architecture decisions, targeted acceptance, communication, and delivery. Workers own coherent discovery, technical design within agreed scope, implementation, meaningful testing, local repair, and technical follow-ups. The lead does the discovery needed for accurate dispatch, inspects real artifacts and evidence, and can investigate or take over whenever useful. Model and effort selection stays flexible, with Luna favored when both fit. Independent review is driven by material risk. Useful nested delegation respects native tool conditions, including genuine concurrent parent work where required; there is no fixed hierarchy or token quota.
+Keep Astra as the lead for scope, key scientific, product or architecture decisions, permissions, targeted acceptance, communication, and delivery. Workers own complete outcomes, including task-relevant authorized setup, implementation through interface integration, test and acceptance-harness creation and execution, in-scope repair, remote command and log monitoring, related docs, and delivery evidence. With multiple workers, name a useful execution or integration owner; no manager layer is required. Respect project rules that reserve integration or checks for the lead.
+
+Acceptance reviews actual artifacts and reproducible evidence. It does not default to the lead building harnesses, patching glue, or repeating all tests. Ordinarily return unfinished integration, checks, or docs to the same owner, while retaining direct intervention for material uncertainty, risk, or practical need. Use native completion events or bounded waits and meaningful user updates instead of busy status loops. Concurrent independent parent work is required only when the live tool actually says so, including for nesting; otherwise awaiting the owner is valid. At full capacity, first reuse a suitable worker or queue work, without terminating active tasks to free slots. Model and effort selection stays flexible, with Luna favored when both fit; there is no fixed hierarchy, quota, or measured savings guarantee.
 
 Ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward with ref economy. Back up existing customizations before replacing the installed variant, and update its optional marked AGENTS block if present."
 
