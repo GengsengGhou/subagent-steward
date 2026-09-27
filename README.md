@@ -1,4 +1,6 @@
-# 子智能体管家 · 经济版 1.0.0 / Subagent Steward · Economy 1.0.0
+# 子智能体管家 · 经济版 / Subagent Steward · Economy
+
+本分支包含下一版的开发候选，尚未发布。公开正式版仍为 `economy-v1.0.0`；下面的固定标签安装入口不会安装本候选。
 
 本仓库有两个同名技能变体，一次只安装一个：
 
@@ -7,18 +9,19 @@
 
 通用版和经济版使用独立版本标签；GitHub 默认最新版本仍为通用版 `v1.0.0`。日常修改在分支持续开发和试用，按需要发布后续版本。早期 Release 保持草稿，标签、附件和代码历史保留。
 
-2026-09-27 的维护者试用反馈认为最新分工改善了消耗，报告 Astra 的 token 占比从约一半降到约三分之一。这是使用中的观察性自述，不是受控基准测试，不能证明总账单降低或质量没有损失，也不保证其他任务取得同样效果。
+2026-09-27 对 `economy-v1.0.0` 的维护者试用反馈认为分工改善了消耗，报告 Astra 的 token 占比从约一半降到约三分之一。这是使用中的观察性自述，不是受控基准测试，不能证明总账单降低或质量没有损失，也不保证其他任务或本候选取得同样效果。
 
 这是社区 Codex skill，不是 OpenAI 官方项目或独立调度服务。
 
 ## 经济版怎么分工
 
 - Astra 保留与你沟通、需求澄清、关键产品或架构决策、针对性验收和交付；通常只做准确交办所需的调查，需要时可深入调查，不需要手动切换主模型。
-- 按实际工具条件，Luna／Sol 默认负责完整结果：按任务需要承担授权内的环境和工具准备、调查与技术设计、实现及接口整合、测试和验收脚本的创建与执行、范围内修复、远程命令与日志跟进、相关文档和交付证据。多人分工时明确有用的执行或整合负责人；不强制增加管理层。项目明确要求主智能体亲自整合或检查时仍遵守。
+- 按实际工具条件，Luna／Sol 默认负责完整结果：按任务需要承担授权内的环境和工具准备、调查与技术设计、实现及接口整合、测试和验收脚本的创建与执行、范围内修复、远程命令与日志跟进，并交齐相关文档、验证记录和产物引用供验收。多人分工时明确有用的执行或整合负责人；不强制增加管理层。项目明确要求主智能体亲自整合或检查时仍遵守。
 - 沿用默认版的灵活选择：两者都适合时偏好 Luna；Luna/high、Sol/medium 是参考起点，xhigh/max 可按需直接选，Sol 不需要额外举证或先让 Luna 失败。
 - Astra 可以直接调用任一模型；有实际收益且运行时支持时，执行者也可继续委派独立部分，并负责整合和验证。没有必经的 Sol 中间层或技能自设的并发、深度上限。
 - Astra 依据目标检查实际产物和可复现证据；验收不默认变成主智能体编写测试脚本、补接口代码或重跑全部测试。整合、测试或文档未完成时，通常交原负责人定向续做；存在实质风险、疑点或直接处理更合适时，可深入检查或接管。小任务直接完成，独立复核按风险使用，不设 token 占比或工作量配额。
-- 连贯执行阶段优先使用原生完成通知或有界等待，遵守运行时和用户进度沟通要求；不为保持忙碌反复检查、催问或循环调用工具。非紧急修正合并交办，及时传达改变决策的发现和阻塞。
+- 连贯执行阶段使用适合当前阶段的原生完成通知或有界等待；没有即将完成等理由时，不先用短超时反复探测。遵守运行时和用户进度沟通要求，不许诺超出限制的长等待；非紧急反馈合并交给同一负责人，及时传达重要发现、阻塞和紧急消息。
+- 完整读过、仍在上下文且适用的规则与证据可复用；输出截断、内容可能更新、压缩后丢失、需要确认新鲜度或上位指令要求时仍重读。复用旧负责人时按需补充改变的约束和职责，不假设它已知道新版，也不默认重发整套技能或替换活跃负责人。
 
 ## 安装正式版或切换
 
@@ -46,13 +49,13 @@
 
 ## English overview
 
-The default stable edition is `main` / `v1.0.0` and remains GitHub's latest release. [Economy 1.0.0](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0) is an independently versioned stable release, tagged `economy-v1.0.0`; further development stays on `economy`. Earlier releases remain drafts, preserving tags, assets, and history. Install only one variant at a time.
+This branch contains an unpublished candidate for further development. The default stable edition is `main` / `v1.0.0` and remains GitHub's latest release. [Economy 1.0.0](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0) remains the independently versioned stable economy release; its pinned installation below does not install this candidate. Earlier releases remain drafts, preserving tags, assets, and history. Install only one variant at a time.
 
-On 2026-09-27, maintainer trial feedback reported Astra's token share fell from about half to about one third after the latest ownership changes. This is an observational self-report, not a controlled benchmark, evidence of unchanged quality, or a guarantee of lower bills or similar results on other tasks.
+On 2026-09-27, maintainer trial feedback for `economy-v1.0.0` reported Astra's token share fell from about half to about one third. This is an observational self-report, not a controlled benchmark, evidence of unchanged quality, or a guarantee of lower bills or similar results for other tasks or this candidate.
 
-Keep Astra as the lead for scope, key scientific, product or architecture decisions, permissions, targeted acceptance, communication, and delivery. Workers own complete outcomes, including task-relevant authorized setup, implementation through interface integration, test and acceptance-harness creation and execution, in-scope repair, remote command and log monitoring, related docs, and delivery evidence. With multiple workers, name a useful execution or integration owner; no manager layer is required. Respect project rules that reserve integration or checks for the lead.
+Keep Astra as the lead for scope, key scientific, product or architecture decisions, permissions, targeted acceptance, communication, and delivery. Workers own complete outcomes, including task-relevant authorized setup, implementation through interface integration, test and acceptance-harness creation and execution, in-scope repair, remote command and log monitoring, related docs, verification records, and artifact references ready for acceptance. With multiple workers, name a useful execution or integration owner; no manager layer is required. Respect project rules that reserve integration or checks for the lead.
 
-Acceptance reviews actual artifacts and reproducible evidence. It does not default to the lead building harnesses, patching glue, or repeating all tests. Ordinarily return unfinished integration, checks, or docs to the same owner, while retaining direct intervention for material uncertainty, risk, or practical need. Use native completion events or bounded waits and meaningful user updates instead of busy status loops. Concurrent independent parent work is required only when the live tool actually says so, including for nesting; otherwise awaiting the owner is valid. At full capacity, first reuse a suitable worker or queue work, without terminating active tasks to free slots. Model and effort selection stays flexible, with Luna favored when both fit; there is no fixed hierarchy, quota, or measured savings guarantee.
+Acceptance reviews actual artifacts and reproducible evidence. Ordinarily return unfinished delivery to the same owner rather than rebuilding harnesses, patching glue, or repeating all tests, while retaining direct intervention for material uncertainty, risk, or practical need. Use stage-appropriate native waits within runtime and user-update rules; avoid unjustified short probes, combine nonurgent feedback, and relay meaningful findings or urgent messages. Reuse fully read, still-available relevant rules and evidence, rereading for truncation, possible changes, lost context, required freshness, or higher-priority instructions. Pass relevant changed constraints or responsibilities when reusing older workers without routinely resending the full skill or replacing active owners. Concurrent independent parent work is required only when the live tool actually says so, including for nesting. At full capacity, first reuse a suitable worker or queue work without terminating active tasks. Model and effort selection stays flexible, with Luna favored when both fit; no fixed hierarchy, quota, or savings guarantee applies.
 
 Ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward with ref economy-v1.0.0. Back up existing customizations before replacing the installed variant, and update its optional marked AGENTS block if present."
 
