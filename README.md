@@ -8,10 +8,10 @@
 
 本仓库提供两个独立版本，均使用技能名 `$subagent-steward`：
 
-- **默认版 v1.0.0**（`main`）：由主智能体根据任务收益判断是否把工作完整委派给 Luna 或 Sol。适合希望由主智能体灵活决定委派方式的用户。安装时指定 ref `v1.0.0`，可选片段见[默认版 AGENTS.md 片段](https://github.com/GengsengGhou/subagent-steward/blob/v1.0.0/examples/AGENTS.snippet.md)。
-- **经济版 economy-v1.0.0**（[`economy` 分支](https://github.com/GengsengGhou/subagent-steward/tree/economy)）：更积极地默认让 Luna 或 Sol 完整负责获派任务，包括整合、检查和验收证据；主智能体保留关键决策和针对性验收。适合希望更多工作默认交由下属执行的用户。安装时指定 ref `economy-v1.0.0`，见[经济版 Release](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0)及[经济版 AGENTS.md 片段](https://github.com/GengsengGhou/subagent-steward/blob/economy-v1.0.0/examples/AGENTS.snippet.md)。
+- **默认版 v1.1.0**（`main`）：由主智能体根据任务收益判断是否把工作完整委派给 Luna 或 Sol。适合希望由主智能体灵活决定委派方式的用户。安装时指定 ref `v1.1.0`，可选片段见[默认版 AGENTS.md 片段](https://github.com/GengsengGhou/subagent-steward/blob/v1.1.0/examples/AGENTS.snippet.md)。
+- **经济版 economy-v1.1.0**（[`economy` 分支](https://github.com/GengsengGhou/subagent-steward/tree/economy)）：更积极地默认让 Luna 或 Sol 完整负责获派任务，包括整合、检查和验收证据；主智能体保留关键决策和针对性验收。适合希望更多工作默认交由下属执行的用户。安装时指定 ref `economy-v1.1.0`，见[经济版 Release](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.1.0)及[经济版 AGENTS.md 片段](https://github.com/GengsengGhou/subagent-steward/blob/economy-v1.1.0/examples/AGENTS.snippet.md)。
 
-当前 `main` 和 `economy` 分支的 GPT-6.1 Sol 路由更新尚未发布；固定标签 `v1.0.0` 和 `economy-v1.0.0` 不包含该更新。试用分支开发内容请明确指定所选分支或完整提交 SHA；分支会变化。
+正式版请固定 `v1.1.0` 或 `economy-v1.1.0` 标签。试用后续开发内容时，明确指定所选分支或完整提交 SHA；分支会变化。
 
 同一 Codex 环境只安装一种。切换前备份个人定制；若项目或个人指令中加入了可选 AGENTS.md 片段，也要替换为所选版本对应的片段。
 
@@ -49,10 +49,10 @@ high、xhigh、max 不是必须逐级尝试的阶梯。需要深度思考时，L
 把下面这句话发给 Codex：
 
 ```text
-使用 skill-installer 从 https://github.com/GengsengGhou/subagent-steward 安装 skills/subagent-steward 技能，指定 ref 为 v1.0.0。
+使用 skill-installer 从 https://github.com/GengsengGhou/subagent-steward 安装 skills/subagent-steward 技能，指定 ref 为 v1.1.0。
 ```
 
-也可直接提供 [技能目录链接](https://github.com/GengsengGhou/subagent-steward/tree/v1.0.0/skills/subagent-steward)。该路径包含完整的 `SKILL.md` 和 `agents/openai.yaml`。标准 skill-installer 会安装到 `$CODEX_HOME/skills/subagent-steward`；未设置 `CODEX_HOME` 时通常是 `~/.codex/skills/subagent-steward`。若同名技能已存在，先确认是否有个人修改，再决定更新，避免直接覆盖。
+也可直接提供 [技能目录链接](https://github.com/GengsengGhou/subagent-steward/tree/v1.1.0/skills/subagent-steward)。该路径包含完整的 `SKILL.md` 和 `agents/openai.yaml`。标准 skill-installer 会安装到 `$CODEX_HOME/skills/subagent-steward`；未设置 `CODEX_HOME` 时通常是 `~/.codex/skills/subagent-steward`。若同名技能已存在，先确认是否有个人修改，再决定更新，避免直接覆盖。
 
 也可以下载仓库 ZIP，把其中的 `skills/subagent-steward` 整个文件夹复制到上述技能目录。安装后在下一轮对话中检查是否识别到技能；若客户端尚未刷新，重新打开任务后再试。
 
@@ -67,7 +67,7 @@ high、xhigh、max 不是必须逐级尝试的阶梯。需要深度思考时，L
 ## 运行要求与边界
 
 - Codex 运行环境必须提供原生子智能体工具。具体可用模型和推理强度以该工具为准，主模型选择器或 API 模型列表不能代替检查。
-- 本分支优先使用 `gpt-6-luna` / `gpt-6.1-sol`。Luna 回退为 `gpt-5.6-luna`；Sol 依次回退为 `gpt-6-sol`、`gpt-5.6-sol`，且只选工具明确支持的模型与推理强度。无法委派时由主智能体完成，说明有影响的回退；不因新型号替换合适的活跃负责人。
+- 优先使用 `gpt-6-luna` / `gpt-6.1-sol`。Luna 回退为 `gpt-5.6-luna`；Sol 依次回退为 `gpt-6-sol`、`gpt-5.6-sol`，且只选工具明确支持的模型与推理强度。无法委派时由主智能体完成，说明有影响的回退；不因新型号替换合适的活跃负责人。
 - 派发时显式指定模型和推理强度，并传递精简、完整的任务说明，避免意外继承 Astra 或整段聊天历史。不同客户端的工具参数可能不同，以实时工具契约为准。
 - 不需要额外 API key、Python、Conda 或 codebase-memory 插件。项目若已有专门的代码发现规则，仍遵守那些规则。
 - 安装技能不会修改主模型、`config.toml` 或全局 `AGENTS.md`。可选的自动调用片段需要另行合并。
@@ -85,13 +85,13 @@ Codex 对 6.1 Sol 建议从客户端默认推理强度开始，对 Luna 建议 H
 
 ## English overview
 
-This repository offers two releases with the same skill name, `$subagent-steward`. The default edition, **v1.0.0** (`main`), lets the lead decide whether complete delegation is useful for each task. Install it with ref `v1.0.0`. The **economy-v1.0.0** edition ([release](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0), [`economy` branch](https://github.com/GengsengGhou/subagent-steward/tree/economy)) more readily assigns complete execution to Luna or Sol by default, including integration, checks, and acceptance evidence, while the lead retains key decisions and targeted acceptance. Install it with ref `economy-v1.0.0`.
+This repository offers two releases with the same skill name, `$subagent-steward`. The default edition, **v1.1.0** (`main`), lets the lead decide whether complete delegation is useful for each task. Install it with ref `v1.1.0`. The **economy-v1.1.0** edition ([release](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.1.0), [`economy` branch](https://github.com/GengsengGhou/subagent-steward/tree/economy)) more readily assigns complete execution to Luna or Sol by default, including integration, checks, and acceptance evidence, while the lead retains key decisions and targeted acceptance. Install it with ref `economy-v1.1.0`.
 
-Subagent Steward is a community Codex skill for cost-aware delegation under an Astra lead. It preserves the user's primary model and effort and uses **GPT-6 Luna / high** and **GPT-6.1 Sol / medium** as flexible starting points on this development branch. Sol falls back to `gpt-6-sol`, then `gpt-5.6-sol`; Luna falls back to `gpt-5.6-luna`, only with live-tool-supported efforts. Retain suitable active owners. Codex recommends the client default for 6.1 Sol; medium is this skill's practical starting point, not a native-tool default. Favor Luna when both fit, but freely select Sol or Max without a proof requirement or prior failed attempt. Delegate coherent investigation, implementation, testing, and repair assignments when useful. Astra can call either model directly; workers may delegate independent parts when supported, retaining responsibility for scope, integration, and checks. There is no mandatory coordinator layer or skill-imposed count/depth quota; live runtime restrictions still apply. The lead may always investigate deeply or take over when needed. Actual savings and quality effects remain unmeasured. When switching editions, back up local customizations and replace the corresponding optional AGENTS.md block while keeping other instructions.
+Subagent Steward is a community Codex skill for cost-aware delegation under an Astra lead. It preserves the user's primary model and effort and uses **GPT-6 Luna / high** and **GPT-6.1 Sol / medium** as flexible starting points. Sol falls back to `gpt-6-sol`, then `gpt-5.6-sol`; Luna falls back to `gpt-5.6-luna`, only with live-tool-supported efforts. Retain suitable active owners. Codex recommends the client default for 6.1 Sol; medium is this skill's practical starting point, not a native-tool default. Favor Luna when both fit, but freely select Sol or Max without a proof requirement or prior failed attempt. Delegate coherent investigation, implementation, testing, and repair assignments when useful. Astra can call either model directly; workers may delegate independent parts when supported, retaining responsibility for scope, integration, and checks. There is no mandatory coordinator layer or skill-imposed count/depth quota; live runtime restrictions still apply. The lead may always investigate deeply or take over when needed. Actual savings and quality effects remain unmeasured. When switching editions, back up local customizations and replace the corresponding optional AGENTS.md block while keeping other instructions.
 
-The GPT-6.1 Sol routing changes on `main` and `economy` are unpublished; the fixed release tags do not include them. Explicitly choose a branch or full commit SHA to try development content.
+Pin `v1.1.0` or `economy-v1.1.0` for a stable release. Explicitly choose a branch or full commit SHA to try subsequent development; branches can change.
 
-To install the default edition, ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward with ref v1.0.0." For the economy edition, use the same instruction with ref `economy-v1.0.0`. Invoke either edition with `$subagent-steward`. For optional recurring use, merge the selected edition's [portable AGENTS.md snippet](https://github.com/GengsengGhou/subagent-steward/blob/v1.0.0/examples/AGENTS.snippet.md) into your own instructions; use ref `economy-v1.0.0` for the economy snippet. Native subagent tooling and supported models are required for delegation. Neither edition guarantees savings.
+To install the default edition, ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward with ref v1.1.0." For the economy edition, use the same instruction with ref `economy-v1.1.0`. Invoke either edition with `$subagent-steward`. For optional recurring use, merge the selected edition's [portable AGENTS.md snippet](https://github.com/GengsengGhou/subagent-steward/blob/v1.1.0/examples/AGENTS.snippet.md) into your own instructions; use ref `economy-v1.1.0` for the economy snippet. Native subagent tooling and supported models are required for delegation. Neither edition guarantees savings.
 
 ## License
 
