@@ -4,12 +4,14 @@
 
 这是一个社区 Codex skill，不是 OpenAI 官方项目。它提供调度指导，不是独立调度服务，也不提供硬预算限制或节省费用的保证。
 
-## 版本与开发路线
+## 版本
 
-- **默认版 v1.0.0**：维护于 `main`，以原 v0.4.0 的技能策略作为稳定基线；本次整理只更新发布和安装说明，技能内容不变。
-- **经济版 economy-v1.0.0**：已[正式发布](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0)，维护于 [`economy`](https://github.com/GengsengGhou/subagent-steward/tree/economy)。由 Luna／Sol 默认负责完整执行，包括整合、测试及验收证据，Astra 保留关键决策和针对性验收；安装时明确指定 ref 为 `economy-v1.0.0`。
+本仓库提供两个独立版本，均使用技能名 `$subagent-steward`：
 
-两条路线使用独立版本标签；GitHub 默认最新版本仍为通用版 `v1.0.0`。日常调整通过分支提交维护，不为每次修改创建 Release。早期 Release 已转为草稿，原标签和提交保留，方便追溯。两条路线使用相同技能名 `$subagent-steward`，同一环境只安装一种；切换前保留个人定制，并同步对应的可选 AGENTS.md 片段。
+- **默认版 v1.0.0**（`main`）：由主智能体根据任务收益判断是否把工作完整委派给 Luna 或 Sol。适合希望由主智能体灵活决定委派方式的用户。安装时指定 ref `v1.0.0`，可选片段见[默认版 AGENTS.md 片段](https://github.com/GengsengGhou/subagent-steward/blob/v1.0.0/examples/AGENTS.snippet.md)。
+- **经济版 economy-v1.0.0**（[`economy` 分支](https://github.com/GengsengGhou/subagent-steward/tree/economy)）：更积极地默认让 Luna 或 Sol 完整负责获派任务，包括整合、检查和验收证据；主智能体保留关键决策和针对性验收。适合希望更多工作默认交由下属执行的用户。安装时指定 ref `economy-v1.0.0`，见[经济版 Release](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0)及[经济版 AGENTS.md 片段](https://github.com/GengsengGhou/subagent-steward/blob/economy-v1.0.0/examples/AGENTS.snippet.md)。
+
+同一 Codex 环境只安装一种。切换前备份个人定制；若项目或个人指令中加入了可选 AGENTS.md 片段，也要替换为所选版本对应的片段。
 
 ## 怎么分工
 
@@ -77,15 +79,15 @@ high、xhigh、max 不是必须逐级尝试的阶梯。需要深度思考时，L
 
 ## 更新与移除
 
-更新前保留本地定制，再安装或复制新版本。若以前添加过自动调用片段，请同步替换为 [当前片段](examples/AGENTS.snippet.md)；旧版片段中禁止子智能体继续委派的规则会阻止新策略生效。只替换本技能的标记块，保留其他指令。移除时删除安装目录中的 `subagent-steward` 文件夹，并移除自己添加的可选 AGENTS.md 片段。无需调整主模型配置。
+更新或切换版本前，备份本地定制，再替换已安装的 `subagent-steward` 文件夹。若曾加入可选 AGENTS.md 片段，请同步换成所选版本的片段；只替换该技能的标记块并保留其他指令。移除时删除技能文件夹及自己添加的可选片段，无需调整主模型配置。
 
 ## English overview
 
-The default stable release is **v1.0.0**, with the same skill content as v0.4.0, and remains GitHub's latest release. The independent [economy-v1.0.0 release](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0) is now available from the `economy` track: Luna/Sol default to complete execution through integration, checks, and acceptance evidence, while Astra retains key decisions and targeted acceptance. Explicitly install ref `economy-v1.0.0` for that edition. Routine edits stay on branches instead of becoming releases. Earlier releases are drafts; their tags and commits are preserved. Install only one variant at a time, backing up customizations and switching the corresponding optional AGENTS block.
+This repository offers two releases with the same skill name, `$subagent-steward`. The default edition, **v1.0.0** (`main`), lets the lead decide whether complete delegation is useful for each task. Install it with ref `v1.0.0`. The **economy-v1.0.0** edition ([release](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0), [`economy` branch](https://github.com/GengsengGhou/subagent-steward/tree/economy)) more readily assigns complete execution to Luna or Sol by default, including integration, checks, and acceptance evidence, while the lead retains key decisions and targeted acceptance. Install it with ref `economy-v1.0.0`.
 
-Subagent Steward is a community Codex skill for cost-aware delegation under an Astra lead. It preserves the user's primary model and effort and uses **GPT-6 Luna / high** and **GPT-6 Sol / medium** as flexible starting points. Favor Luna when both fit, but freely select Sol or Max without a proof requirement or prior failed attempt. Delegate coherent investigation, implementation, testing, and repair assignments when useful. Astra can call either model directly; workers may delegate independent parts when supported, retaining responsibility for scope, integration, and checks. There is no mandatory coordinator layer or skill-imposed count/depth quota; live runtime restrictions still apply. The lead may always investigate deeply or take over when needed. Actual savings and quality effects remain unmeasured. When upgrading, replace any older optional AGENTS.md block that prohibits nested delegation.
+Subagent Steward is a community Codex skill for cost-aware delegation under an Astra lead. It preserves the user's primary model and effort and uses **GPT-6 Luna / high** and **GPT-6 Sol / medium** as flexible starting points. Favor Luna when both fit, but freely select Sol or Max without a proof requirement or prior failed attempt. Delegate coherent investigation, implementation, testing, and repair assignments when useful. Astra can call either model directly; workers may delegate independent parts when supported, retaining responsibility for scope, integration, and checks. There is no mandatory coordinator layer or skill-imposed count/depth quota; live runtime restrictions still apply. The lead may always investigate deeply or take over when needed. Actual savings and quality effects remain unmeasured. When switching editions, back up local customizations and replace the corresponding optional AGENTS.md block while keeping other instructions.
 
-To install, ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward with ref v1.0.0." Invoke it with `$subagent-steward`. For optional recurring use, merge the portable [AGENTS.md snippet](examples/AGENTS.snippet.md) into your own instructions. No extra API key or plugin is required; native subagent tooling and supported models are required for delegation. Actual savings are unmeasured.
+To install the default edition, ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward with ref v1.0.0." For the economy edition, use the same instruction with ref `economy-v1.0.0`. Invoke either edition with `$subagent-steward`. For optional recurring use, merge the selected edition's [portable AGENTS.md snippet](https://github.com/GengsengGhou/subagent-steward/blob/v1.0.0/examples/AGENTS.snippet.md) into your own instructions; use ref `economy-v1.0.0` for the economy snippet. Native subagent tooling and supported models are required for delegation. Neither edition guarantees savings.
 
 ## License
 
