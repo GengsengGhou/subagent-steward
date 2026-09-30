@@ -7,7 +7,7 @@ description: "Delegate substantial implementation, debugging, research, or revie
 
 Keep the user's chosen primary model and reasoning effort. The intended lead is Astra: it owns user communication, requirements, architecture, delegation, acceptance, and final delivery. Do not switch the lead to save money. When another primary model is explicitly selected, respect it.
 
-This skill requests delegation when the conditions below are met, and explicitly instructs selection of the subagent models and reasoning efforts below. The Luna/high and Sol/medium starting points follow official Codex guidance; the task-routing suggestions are local trial policy, not measured cost or quality guarantees. Explicit user choices take precedence.
+This skill requests delegation when the conditions below are met, and explicitly instructs selection of the subagent models and reasoning efforts below. Luna/high follows current Codex guidance; Sol/medium is a practical starting point for this skill. The task-routing suggestions are local trial policy, not measured cost or quality guarantees. Explicit user choices take precedence.
 
 ## Decide whether to delegate
 
@@ -29,7 +29,7 @@ Let the assigned worker handle ordinary technical choices and local repair. Brin
 
 ## Choose model and effort for total completion cost
 
-Choose a model-and-effort combination using ordinary task judgment: scope, uncertainty, reasoning depth, ability to check the result, likely supervision, time, and total cost. When both models look suitable with no clear practical advantage, favor `gpt-6-luna` for its lower cost. This is a preference, not a requirement to prove Luna inadequate before selecting `gpt-6-sol`.
+Choose a model-and-effort combination using ordinary task judgment: scope, uncertainty, reasoning depth, ability to check the result, likely supervision, time, and total cost. When both models look suitable with no clear practical advantage, favor `gpt-6-luna` for its lower cost. This is a preference, not a requirement to prove Luna inadequate before selecting `gpt-6.1-sol`.
 
 Luna/high and Sol/medium are useful starting points, not compulsory defaults or a trial sequence. Give either worker clear goals, relevant context, and enough autonomy to investigate and make local technical decisions. Use the tendencies below as guidance, not eligibility tests.
 
@@ -38,10 +38,10 @@ Luna/high and Sol/medium are useful starting points, not compulsory defaults or 
 | Focused implementation, investigation, tests, summaries, or research, including local technical judgment and multiple modules | Usually `gpt-6-luna` | `high` is a useful starting point |
 | Simple extraction, transformations, or repetitive edits | Usually `gpt-6-luna` | `low` or `medium` can be sufficient |
 | Clear goals with long reasoning chains, interacting constraints, or many edge cases | Often `gpt-6-luna` | Freely choose `xhigh` or `max` for deeper reasoning |
-| Open-ended investigation, changing hypotheses, competing approaches, or integration needing broader judgment | Often `gpt-6-sol` | `medium` or `high`, adjusted to the task |
+| Open-ended investigation, changing hypotheses, competing approaches, or integration needing broader judgment | Often `gpt-6.1-sol` | `medium` or `high`, adjusted to the task |
 | Deep analysis or extensive checking for either model | Whichever fits the work | `xhigh` or `max` when useful |
 
-Use these GPT-6 model IDs when the live subagent tool supports them. Select effort from that tool's supported values; API documentation and the primary-model picker do not establish subagent availability. Do not infer measured savings or quality gains from the generation change alone.
+Use these model IDs when the live subagent tool supports them. Select effort from that tool's supported values; API documentation and the primary-model picker do not establish subagent availability. Do not infer measured savings or quality gains from the generation change alone.
 
 Select the effort that seems useful up front. There is no required progression through high, xhigh, and max, and no preference for xhigh solely because Max is the highest setting. If deeper thought is likely to help, Luna Max is a normal option; if the work is straightforward or latency matters more, use a lighter setting. The same flexibility applies to Sol. Neither Sol nor Max needs extra proof, a benchmark, a prior failure, or a special approval beyond ordinary task judgment. Do not manufacture certainty or collect evidence solely to authorize a model choice.
 
@@ -49,7 +49,7 @@ Task labels are hints, not automatic routing rules: multi-module work can fit Lu
 
 Aim for acceptable quality at reasonable total completion cost, including lead supervision, retries, acceptance, and elapsed time when relevant. Luna's lower per-token cost can make extra reasoning worthwhile; Sol can avoid costly guidance or rework. Use available experience when helpful without requiring measurements, inventing success probabilities, or assuming either model always wins.
 
-Official basis, checked 2026-09-23: [Codex model guidance](https://developers.openai.com/codex/models) recommends starting with Luna High and Sol Medium; [GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) emphasizes focused, high-volume tasks, and [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) emphasizes complex coding and agentic workflows. These starting efforts do not establish which model is cheapest for a task. Favoring Luna when both fit is this skill's cost preference, not an official comparative performance claim. API parameter defaults are distinct from Codex recommendations, and effort levels do not map exactly across generations. Preserve the user's chosen Astra effort. Do not re-fetch these references on every delegation unless availability or guidance needs updating.
+Official basis, checked 2026-10-01: [Codex model guidance](https://developers.openai.com/codex/models) recommends GPT-6.1 Sol when available for complex coding and agentic workflows, and Luna for focused, repeatable work. [GPT-6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol) starts from the Codex client default effort; Luna guidance starts at High. Sol/medium is this skill's practical starting point, not a native-tool default. Model and effort availability come from the live subagent tool. This routing policy does not guarantee task quality or total savings; API prices do not establish Codex plan-credit ratios. Preserve the user's chosen primary effort. Recheck only when availability or guidance needs updating.
 
 Exclude Terra and Astra from the default child route. Use Terra only when explicitly requested or when task-specific measured results support it. Use an Astra child only when explicitly requested or when a bounded independent high-stakes judgment clearly warrants it; explain that exception briefly. Usually the existing Astra lead handles the hardest judgment itself. Do not default children to `ultra`; GPT-6 Luna does not support Ultra.
 
@@ -57,7 +57,7 @@ Exclude Terra and Astra from the default child route. Use Terra only when explic
 
 Use native subagent tools, not new user-owned tasks or a second CLI/API process as a workaround. Check the live tool's supported models, efforts, and role behavior. Set BOTH model and reasoning effort explicitly on every spawn. Where `collaboration.spawn_agent` is available, use `model`, `reasoning_effort`, and `fork_turns: "none"`; supply a self-contained task message. Do not combine a model override with a full-history fork, which may be unsupported or inherit the primary model. Reuse an existing child for related follow-up work when its model remains suitable.
 
-Prefer the default role unless the user requests another role or the tool contract allows choosing one. Custom role configuration may override spawn settings: avoid roles with incompatible fixed models. If the desired model or effort is unavailable, use a supported Luna/Sol combination appropriate to the task, or do the work locally. When a GPT-6 model is unavailable, its `gpt-5.6-luna` or `gpt-5.6-sol` predecessor is an eligible fallback only if the live subagent tool lists it; check its supported effort separately. Disclose material fallback; do not silently spawn an inherited Astra or claim a requested model was used without evidence.
+Prefer the default role unless the user requests another role or the tool contract allows choosing one. Custom role configuration may override spawn settings: avoid roles with incompatible fixed models. If the desired model or effort is unavailable, use a supported Luna/Sol combination appropriate to the task, or do the work locally. Prefer `gpt-6-luna` for Luna work and `gpt-6.1-sol` for Sol work when the live subagent tool supports them. If unavailable, the Luna fallback is `gpt-5.6-luna`; the Sol fallback order is `gpt-6-sol`, then `gpt-5.6-sol`. Each fallback is eligible only when the live tool lists it; check its supported effort separately. Disclose a material fallback. Do not replace a suitable active owner merely because a newer model is available. Do not silently spawn an inherited Astra or claim a requested model was used without evidence.
 
 Provide only the necessary handoff:
 
