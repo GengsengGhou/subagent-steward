@@ -1,23 +1,19 @@
 # 子智能体管家 · 经济版 / Subagent Steward · Economy
 
-本分支包含下一版的开发候选，尚未发布。公开正式版仍为 `economy-v1.0.0`；下面的固定标签安装入口不会安装本候选。
+经济版让 Luna／Sol 在适合委派的任务中默认负责完整的常规执行，包括调查、实现、整合、测试和相关文档。Astra 负责与你沟通、关键决策和针对性验收。它适合希望减少主智能体执行工作、同时保留必要判断的用户。
 
-本仓库有两个同名技能变体，一次只安装一个：
+这是社区 Codex skill，不是 OpenAI 官方项目或独立调度服务。两版使用相同技能名 `$subagent-steward`，一次只安装一种：
 
-- `main` / `v1.0.0`：通用版，按任务判断是否委派。
-- [`economy-v1.0.0`](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0)：经济版正式版本；原生委派条件允许时，由 Luna／Sol **默认负责**完整的常规执行结果。后续开发维护于 `economy` 分支。
+- [通用版 `v1.0.0`](https://github.com/GengsengGhou/subagent-steward/releases/tag/v1.0.0)：按任务收益判断是否委派，适合偏好灵活分工的用户。
+- [经济版 `economy-v1.0.0`](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0)：原生工具允许时，默认将大部分常规执行交给 Luna／Sol，适合更重视控制 Astra 用量的用户。
 
-通用版和经济版使用独立版本标签；GitHub 默认最新版本仍为通用版 `v1.0.0`。日常修改在分支持续开发和试用，按需要发布后续版本。早期 Release 保持草稿，标签、附件和代码历史保留。
-
-2026-09-27 对 `economy-v1.0.0` 的维护者试用反馈认为分工改善了消耗，报告 Astra 的 token 占比从约一半降到约三分之一。这是使用中的观察性自述，不是受控基准测试，不能证明总账单降低或质量没有损失，也不保证其他任务或本候选取得同样效果。
-
-这是社区 Codex skill，不是 OpenAI 官方项目或独立调度服务。
+GitHub 的默认最新版是通用版。经济版请明确指定 `economy-v1.0.0`；本 `economy` 分支还有未发布修改，指定正式标签才能安装上面介绍的正式版。分工偏好不等于预算上限，也不保证总费用或交付质量与其他版本相同。
 
 ## 经济版怎么分工
 
 - Astra 保留与你沟通、需求澄清、关键产品或架构决策、针对性验收和交付；通常只做准确交办所需的调查，需要时可深入调查，不需要手动切换主模型。
 - 按实际工具条件，Luna／Sol 默认负责完整结果：按任务需要承担授权内的环境和工具准备、调查与技术设计、实现及接口整合、测试和验收脚本的创建与执行、范围内修复、远程命令与日志跟进，并交齐相关文档、验证记录和产物引用供验收。多人分工时明确有用的执行或整合负责人；不强制增加管理层。项目明确要求主智能体亲自整合或检查时仍遵守。
-- 沿用默认版的灵活选择：两者都适合时偏好 Luna；Luna/high、Sol/medium 是参考起点，xhigh/max 可按需直接选，Sol 不需要额外举证或先让 Luna 失败。
+- 灵活选择模型和推理强度：两者都适合时偏好 Luna；Luna/high、Sol/medium 是参考起点，xhigh/max 可按需直接选，Sol 不需要额外举证或先让 Luna 失败。
 - Astra 可以直接调用任一模型；有实际收益且运行时支持时，执行者也可继续委派独立部分，并负责整合和验证。没有必经的 Sol 中间层或技能自设的并发、深度上限。
 - Astra 依据目标检查实际产物和可复现证据；验收不默认变成主智能体编写测试脚本、补接口代码或重跑全部测试。整合、测试或文档未完成时，通常交原负责人定向续做；存在实质风险、疑点或直接处理更合适时，可深入检查或接管。小任务直接完成，独立复核按风险使用，不设 token 占比或工作量配额。
 - 连贯执行阶段使用适合当前阶段的原生完成通知或有界等待；没有即将完成等理由时，不先用短超时反复探测。遵守运行时和用户进度沟通要求，不许诺超出限制的长等待；非紧急反馈合并交给同一负责人，及时传达重要发现、阻塞和紧急消息。
@@ -37,7 +33,7 @@
 
 安装后可用 `$subagent-steward` 调用。自动选择仍开启，但不保证每个任务都会加载技能。需要在项目或个人 `AGENTS.md` 中稳定采用规则时，可合并[可选片段](examples/AGENTS.snippet.md)。
 
-明确要试用后续开发时，指定 [`economy` 分支](https://github.com/GengsengGhou/subagent-steward/tree/economy/skills/subagent-steward)或完整提交 SHA；分支会变化。正式版更新请指定新的独立标签；省略 ref 可能装回默认 `main`。安装的技能将在下一轮对话可用；客户端尚未刷新时，重新打开任务后检查。
+明确要试用未发布修改时，指定 [`economy` 分支](https://github.com/GengsengGhou/subagent-steward/tree/economy/skills/subagent-steward)或完整提交 SHA；分支会变化。省略 ref 可能装回默认 `main`。安装的技能将在下一轮对话可用；客户端尚未刷新时，重新打开任务后检查。
 
 ## 运行边界
 
@@ -45,13 +41,11 @@
 
 默认子模型为 `gpt-6-luna` / `gpt-6-sol`；不可用时可使用工具明确支持的对应 5.6 模型，或由主智能体处理，并说明有影响的回退。无需额外 API key 或插件。安装技能本身不修改主模型、`config.toml` 或全局 `AGENTS.md`；可选片段另行合并。
 
-这套规则不自动读取账单或学习历史消耗。试用时应比较相近任务的主智能体绝对消耗、总费用、返工和交付质量；API 单价比例不等于 Codex 套餐额度比例。官方模型依据及本项目策略的区分见 [SKILL.md](skills/subagent-steward/SKILL.md)。
+这套规则不自动读取账单或学习消耗。评估时应比较相近任务的主智能体绝对消耗、总费用、返工和交付质量；API 单价比例不等于 Codex 套餐额度比例。官方模型依据及本项目策略的区分见 [SKILL.md](skills/subagent-steward/SKILL.md)。
 
 ## English overview
 
-This branch contains an unpublished candidate for further development. The default stable edition is `main` / `v1.0.0` and remains GitHub's latest release. [Economy 1.0.0](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0) remains the independently versioned stable economy release; its pinned installation below does not install this candidate. Earlier releases remain drafts, preserving tags, assets, and history. Install only one variant at a time.
-
-On 2026-09-27, maintainer trial feedback for `economy-v1.0.0` reported Astra's token share fell from about half to about one third. This is an observational self-report, not a controlled benchmark, evidence of unchanged quality, or a guarantee of lower bills or similar results for other tasks or this candidate.
+The [default edition `v1.0.0`](https://github.com/GengsengGhou/subagent-steward/releases/tag/v1.0.0) delegates when the task warrants it. The [economy edition `economy-v1.0.0`](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.0.0) defaults to giving capable Luna/Sol workers substantial routine execution under an Astra lead. Choose the default edition for flexible delegation or the economy edition when reducing Astra execution is a stronger priority. Both use the same skill name, so install only one at a time. GitHub's Latest release is the default edition; pin `economy-v1.0.0` to install the stable economy edition. This `economy` branch also contains unpublished changes. No savings or quality outcome is guaranteed.
 
 Keep Astra as the lead for scope, key scientific, product or architecture decisions, permissions, targeted acceptance, communication, and delivery. Workers own complete outcomes, including task-relevant authorized setup, implementation through interface integration, test and acceptance-harness creation and execution, in-scope repair, remote command and log monitoring, related docs, verification records, and artifact references ready for acceptance. With multiple workers, name a useful execution or integration owner; no manager layer is required. Respect project rules that reserve integration or checks for the lead.
 
