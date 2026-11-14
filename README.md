@@ -1,97 +1,92 @@
-# 子智能体管家 · Subagent Steward
+# 子智能体管家 / Subagent Steward
 
-让 Codex 按任务需要完整交办执行工作，灵活选择 Luna、Sol 和推理强度，并在有收益、运行时支持时继续委派；两者都适合时，考虑成本优先 Luna。为偏好 Astra 主导、控制执行成本的用户设计，也尊重你选择的其他主模型。
+**v2.0.0 · 统一自适应维护版**
 
-这是一个社区 Codex skill，不是 OpenAI 官方项目。它提供调度指导，不是独立调度服务，也不提供硬预算限制或节省费用的保证。
+子智能体管家会按根主智能体当前选择的主模型、任务适配度和实时工具支持来安排工作。它既支持直接完成，也支持把连贯的完整结果交给合适的子智能体，并由主智能体验收实际产物。旧正式版仍可使用；v2.0.0 是一个统一自适应维护版。它是社区维护的 Codex skill，不是 OpenAI 官方项目或独立调度服务。
 
-## 版本
+- [v2.0.0 正式发布页](https://github.com/GengsengGhou/subagent-steward/releases/tag/v2.0.0)
+- [下载技能 ZIP](https://github.com/GengsengGhou/subagent-steward/releases/download/v2.0.0/subagent-steward-v2.0.0.zip)
 
-本仓库提供两个独立版本，均使用技能名 `$subagent-steward`：
+## 按主模型适配分工
 
-- **默认版 v1.1.0**（`main`）：由主智能体根据任务收益判断是否把工作完整委派给 Luna 或 Sol。适合希望由主智能体灵活决定委派方式的用户。安装时指定 ref `v1.1.0`，可选片段见[默认版 AGENTS.md 片段](https://github.com/GengsengGhou/subagent-steward/blob/v1.1.0/examples/AGENTS.snippet.md)。
-- **经济版 economy-v1.1.0**（[`economy` 分支](https://github.com/GengsengGhou/subagent-steward/tree/economy)）：更积极地默认让 Luna 或 Sol 完整负责获派任务，包括整合、检查和验收证据；主智能体保留关键决策和针对性验收。适合希望更多工作默认交由下属执行的用户。安装时指定 ref `economy-v1.1.0`，见[经济版 Release](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.1.0)及[经济版 AGENTS.md 片段](https://github.com/GengsengGhou/subagent-steward/blob/economy-v1.1.0/examples/AGENTS.snippet.md)。
+| 根主智能体主模型 | 常规子模型族 | 通常的分工倾向 |
+| --- | --- | --- |
+| Astra | Luna、Terra、Sol | 原生条件允许时，主动委派适合的常规执行；有用时可串行或并行拆分。直接完成仍可选。 |
+| Sol | Luna、Terra、Sol | 可直接完成适合的完整任务；也可为成本、并行、任务适配、上下文隔离或复核而委派。 |
+| Terra | Terra、Luna | 可直接完成适合的完整任务；也可在这两个模型族内分工。 |
+| Luna | Luna | 可直接完成适合的工作；有益时可在同族内并行、隔离上下文或复核。 |
 
-正式版请固定 `v1.1.0` 或 `economy-v1.1.0` 标签。试用后续开发内容时，明确指定所选分支或完整提交 SHA；分支会变化。
+这些模型族边界是项目路由政策，体现用户的能力与成本选择，不是客观能力排名或硬预算。边界限制常规子模型族，不限制是否委派、任务规模、人数或并行协作。只有用户明确指示或已有明确授权时，根主智能体才扩大模型族范围；没有合适且实时工具支持的候选时，直接完成。
 
-同一 Codex 环境只安装一种。切换前备份个人定制；若项目或个人指令中加入了可选 AGENTS.md 片段，也要替换为所选版本对应的片段。
+主模型识别只使用明确的新鲜 **CURRENT-TURN** 元数据。若当前轮主控需要决定委派而没有可用的本轮身份信息，可用随附 Python 3 标准库脚本只读查询当前会话一次；不扫描其他聊天，不把数据库中的旧模型字段当作当前身份，也不输出聊天正文。结果在该根主控轮复用，下一轮需要委派时重新确认。子智能体继承根主控的模型族范围，不自行查询并套用根主控回退。
 
-## 怎么分工
+脚本不可用、环境不支持或本地元数据缺失时，仅回退到 Sol 分工政策；这不表示实际主模型是 Sol，也不会更改主模型或推理强度。此读取方式依赖本地实现格式，不是稳定的公开 API。小任务直接完成，无需为了读取主模型运行脚本。详见[主模型读取说明](skills/subagent-steward/references/primary-model.md)。
 
-| 场景 | 选择参考 |
-| --- | --- |
-| 与用户沟通、需求澄清、总体判断、验收与交付 | 保留当前主智能体及其推理强度 |
-| 范围集中的实现、调查、测试或研究，包括局部技术判断和多个模块 | 通常适合 GPT-6 Luna / high |
-| 目标明确，但逻辑链长、约束相互影响或边界复杂 | Luna / xhigh 或 max 都可直接选择 |
-| 需要不断调整调查方向、比较方案或综合判断的工作 | 通常适合 Sol / medium 或 high |
-| 简单机械任务 | 可以降低 Luna 推理强度 |
-| 任一模型需要深入推演或检查 | 按需选择 xhigh 或 max，无额外举证门槛 |
+## 灵活选模型与强度
 
-小任务直接完成。可独立推进的子任务才委派，数量由收益、依赖、编辑冲突和运行时容量决定，没有技能自设的固定并发上限。Terra 和 Astra 不进入常规子模型路线。
+Luna、Terra、Sol 都可在合适且受允许的情况下负责实现、调查、写作、检查或复核等完整结果。选择时综合任务适配、工具支持、时间与总完成成本，并尊重用户偏好；适配相当且其他候选没有实际优势时偏好 Luna。范围清楚本身不决定选择 Luna，Terra 也适合有边界的执行和代码修复。
 
-### 交办完整工作，保留必要判断
+| 子模型 | 适用倾向 | 实用强度起点 |
+| --- | --- | --- |
+| `gpt-6-luna` | 集中执行、局部技术判断、边界清楚的问题求解及重复工作 | `high` |
+| `gpt-6.1-terra` | 基于材料写作、视觉理解、目标明确的电脑操作及局部代码修复 | `medium` |
+| `gpt-6.1-sol` | 复杂编程、不确定调查、相互依赖的交付与整合、冲突证据判断 | `medium` |
 
-- Astra 始终负责与你沟通、关键决策和最终交付，不要求手动切换主模型。Astra 可以直接调用 Luna 或 Sol。
-- 适合时，让执行者完整负责调查、实现、相关测试和范围内修复，减少每一步都回到 Astra 的交接。Luna、Sol 都可以负责完整任务，并非所有工作必须经过 Sol。
-- 运行时支持且有实际收益时，子智能体可继续委派。例如 Sol 自己处理实现与集成，同时让 Luna 完成一个独立部分。派发者负责整合和检查，再向上交付完整结果。
-- 后代任务沿用原始范围和授权，避免重叠编辑、重复探索或把整项工作逐层转包。技能不增加固定层数上限，但所有派发仍遵守运行时的并发、深度和独立工作条件。工具不支持时，执行者自行完成或报告真实阻塞。
-- Astra 根据实际产物和证据作必要验收，不默认重做每一步；遇到歧义、异常、矛盾或高风险时，仍可深入调查、重复验证、要求独立审查或亲自接手。
+强度起点只是参考；按任务选择支持的强度，需要深度时可直接选择 `xhigh` 或 `max`。模型族首选及同族回退为 Luna `gpt-6-luna` → `gpt-5.6-luna`、Terra `gpt-6.1-terra` → `gpt-5.6-terra`、Sol `gpt-6.1-sol` → `gpt-6-sol` → `gpt-5.6-sol`。只使用实时原生工具支持且属于根主控允许范围的候选。不更换主模型或主推理强度。
 
-这些是分工偏好，不限制主智能体读多少文件、运行多少检查或必须达到某个 token 占比。改善成本主要依靠减少重复执行和频繁交接，不能保证能力完全不受影响或费用必然下降。评估时同时看交付质量、返工、用户纠正次数、总费用及主智能体绝对消耗。
+## 角色与交付
 
-上表是判断参考，不是严格的准入条件。主智能体根据范围、不确定性、推理深度、验收难度、预期指挥成本和时间作合理选择。觉得 Sol 更适合就可以直接使用，无需先证明 Luna 不行，也不必先积累失败记录或成本数据。
+执行者仍是执行者：按获派范围交付完整结果，不因继承本技能而成为根主智能体。只有父任务明确授予有边界的拆分权限时，执行者才可继续委派；权限不自动向后传播。交办时传递根主控允许的模型族、范围、授权、验收要求和整合责任，后代继续遵守原根的模型族边界。
 
-high、xhigh、max 不是必须逐级尝试的阶梯。需要深度思考时，Luna Max 是正常选项，不因它是最高档就优先退到 xhigh；简单或追求快速响应时也可以降低强度。Sol 的推理档位同样灵活选择，任何一方都不需要额外举证或选择报告。
-
-两者看起来都适合、没有明显实际差异时，考虑成本优先 Luna。评估总成本时包含主智能体验收、返工和交接，不要求 Astra 为了让 Luna 胜任而预先解完任务或逐步指挥。出现问题后，可按情况澄清、纠正、调整强度或换模型，不规定先重试几次。此策略不保证某个组合在所有任务上都最省钱。
+执行者按任务需要负责准备、调查、设计、实现、整合、必要检查和证据；多人协作需明确整合负责人。主智能体保留用户沟通、关键决策、实际产物验收与最终交付，并审查相关实际产物和可复现证据。未完成部分通常交原负责人定向续做；按风险深入复核或直接接管。依实时工具采用完成通知或有界等待，不设固定人数、嵌套深度或 token 配额，也不要求先用较低成本模型试错。
 
 ## 安装
 
-把下面这句话发给 Codex：
+### 使用 Codex skill-installer
+
+在 Codex 中请求安装以下 GitHub 技能，并指定发布 ref：
 
 ```text
-使用 skill-installer 从 https://github.com/GengsengGhou/subagent-steward 安装 skills/subagent-steward 技能，指定 ref 为 v1.1.0。
+使用 $skill-installer 从 GitHub 仓库 GengsengGhou/subagent-steward 安装 skills/subagent-steward，指定 --ref v2.0.0。
 ```
 
-也可直接提供 [技能目录链接](https://github.com/GengsengGhou/subagent-steward/tree/v1.1.0/skills/subagent-steward)。该路径包含完整的 `SKILL.md` 和 `agents/openai.yaml`。标准 skill-installer 会安装到 `$CODEX_HOME/skills/subagent-steward`；未设置 `CODEX_HOME` 时通常是 `~/.codex/skills/subagent-steward`。若同名技能已存在，先确认是否有个人修改，再决定更新，避免直接覆盖。
+### 手动安装
 
-也可以下载仓库 ZIP，把其中的 `skills/subagent-steward` 整个文件夹复制到上述技能目录。安装后在下一轮对话中检查是否识别到技能；若客户端尚未刷新，重新打开任务后再试。
+从[发布页](https://github.com/GengsengGhou/subagent-steward/releases/tag/v2.0.0)下载 [v2.0.0 ZIP](https://github.com/GengsengGhou/subagent-steward/releases/download/v2.0.0/subagent-steward-v2.0.0.zip)，解压后将其中的 `subagent-steward/` 文件夹放入 `$CODEX_HOME/skills/`；若未设置 `CODEX_HOME`，通常使用 `~/.codex/skills/`。保留技能目录结构，包括 `scripts/` 和 `references/`。安装后下一轮即可使用 `$subagent-steward`。
 
-### 使用
+从旧默认版或经济版更新前，备份对技能的个人修改，再替换同名技能目录。若个人或项目 `AGENTS.md` 中有可选的 `subagent-steward` 标记块，同步换成 v2.0.0 的[可选配置片段](examples/AGENTS.snippet.md)；只替换该标记块，保留文件中的其他指令与配置。安装不会更改主模型、推理强度或其他设置。
 
-```text
-使用 $subagent-steward 完成这个任务：实现 CSV 导入，并补充错误处理和测试。
-```
+## 功能与依据
 
-技能允许自动选择，但并不保证每个任务都会自动加载，也不会要求每个任务都开启子智能体。希望在复杂任务中稳定考虑这套规则，可以参考 [可选 AGENTS.md 片段](examples/AGENTS.snippet.md)，让 Codex 将它合并到你的项目或个人 `AGENTS.md`，保留已有规则。片段没有本机绝对路径。
+- [技能正文](skills/subagent-steward/SKILL.md)：完整策略、模型选择及角色规则。
+- [可选 AGENTS 片段](examples/AGENTS.snippet.md)：项目或个人指令中的简短调用入口。
+- [模型依据](skills/subagent-steward/references/model-guidance.md)：官方资料与项目路由政策的区别。
+- [主模型读取说明](skills/subagent-steward/references/primary-model.md)：本地只读查找、输出及失败回退。
 
-## 运行要求与边界
+Python 读取器只用标准库；若 Python、本地状态库或会话格式不可用，技能按 Sol 路由政策继续工作，不会为此安装运行环境或依赖。本地读取格式可能变化。实际节省、质量等效或硬预算结果未经量化保证。
 
-- Codex 运行环境必须提供原生子智能体工具。具体可用模型和推理强度以该工具为准，主模型选择器或 API 模型列表不能代替检查。
-- 优先使用 `gpt-6-luna` / `gpt-6.1-sol`。Luna 回退为 `gpt-5.6-luna`；Sol 依次回退为 `gpt-6-sol`、`gpt-5.6-sol`，且只选工具明确支持的模型与推理强度。无法委派时由主智能体完成，说明有影响的回退；不因新型号替换合适的活跃负责人。
-- 派发时显式指定模型和推理强度，并传递精简、完整的任务说明，避免意外继承 Astra 或整段聊天历史。不同客户端的工具参数可能不同，以实时工具契约为准。
-- 不需要额外 API key、Python、Conda 或 codebase-memory 插件。项目若已有专门的代码发现规则，仍遵守那些规则。
-- 安装技能不会修改主模型、`config.toml` 或全局 `AGENTS.md`。可选的自动调用片段需要另行合并。
-- 这套规则不会自动读取账单或从历史消耗中学习。评估效果需要看主智能体与子智能体的总消耗、返工和最终质量。API 单价比例不等于 Codex 套餐额度比例。
+## English
 
-## 官方依据与本项目策略
+Subagent Steward v2.0.0 is one unified adaptive Codex skill; earlier official editions remain usable. It adapts delegation to the root lead's freshly identified current primary model, task fit, and live native-tool support. The lead may work directly or assign a coherent end-to-end outcome, then accepts the actual artifact. This is a community-maintained skill, not an official OpenAI project or standalone scheduler.
 
-2026-10-01 核对的 [OpenAI Codex 模型指南](https://developers.openai.com/codex/models) 建议复杂编程和智能体工作流在可用时选择 **GPT-6.1 Sol**，范围集中、可重复的任务选择 Luna。[GPT-6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol) 定位为接近 Astra 的性能且成本低于 Astra；这不证明特定任务质量等同或比旧 Sol 更省。
+| Root primary | Regular child families | Usual tendency |
+| --- | --- | --- |
+| Astra | Luna, Terra, Sol | Proactively delegate suitable routine execution when native conditions permit; split serially or in parallel when useful. Direct work remains available. |
+| Sol | Luna, Terra, Sol | Complete suitable work directly or delegate for cost, parallelism, task fit, context isolation, or review. |
+| Terra | Terra, Luna | Complete suitable work directly or delegate within these families. |
+| Luna | Luna | Work directly or use same-family delegation for useful parallel work, context isolation, or review. |
 
-Codex 对 6.1 Sol 建议从客户端默认推理强度开始，对 Luna 建议 High。本技能保留 Sol/medium 作为实用参考起点；API 的 medium 默认值不是原生子工具默认值，跨代 effort 也不能直接等同。灵活分工和两者都适合时优先 Luna 是本项目策略，不是官方性能或成本保证；保留用户选择的主模型与强度。
+These family limits are local routing policy that reflects the user's capability and cost choice, not an objective ranking or hard budget. They constrain regular child-family selection, not delegation, task size, worker count, or parallelism. Only explicit user direction or existing authorization widens the root's family set. If no suitable live-supported candidate is available within it, work directly.
 
-## 更新与移除
+Use only fresh, explicit **CURRENT-TURN** primary metadata. If a root needs a delegation policy and no current identity is available, the bundled Python 3 standard-library reader can inspect the exact current session locally and read-only. It does not scan other chats or expose conversation text. Reuse its result within that root turn; refresh on a later delegation turn. Workers inherit root limits and do not run a root lookup. If the runtime or local format is unavailable, use Sol's routing policy as a fallback without claiming the actual primary is Sol or changing the primary or effort. This local storage format is not a stable public API. See the [reader reference](skills/subagent-steward/references/primary-model.md).
 
-更新或切换版本前，备份本地定制，再替换已安装的 `subagent-steward` 文件夹。若曾加入可选 AGENTS.md 片段，请同步换成所选版本的片段；只替换该技能的标记块并保留其他指令。移除时删除技能文件夹及自己添加的可选片段，无需调整主模型配置。
+Luna, Terra, and Sol can each own complete implementation, investigation, writing, checks, or review when suitable and permitted. Choose by task and tool fit, total completion cost, time, and user preference; favor Luna only when candidates are equally suitable and another permitted family has no practical advantage. Practical effort starting points are Luna/high, Terra/medium, and Sol/medium. They are not mandatory defaults; choose a supported effort directly, including `xhigh` or `max` when depth helps. Preferred same-family routes are Luna `gpt-6-luna` to `gpt-5.6-luna`, Terra `gpt-6.1-terra` to `gpt-5.6-terra`, and Sol `gpt-6.1-sol` to `gpt-6-sol`, then `gpt-5.6-sol`. Never change the selected primary or its effort.
 
-## English overview
+An assigned worker remains a worker and completes its assigned scope. It may delegate further only with explicit bounded permission from its parent; permission does not propagate automatically. Handoffs carry the original root's permitted families, scope, authorization, acceptance needs, and integration responsibility. Workers own a complete result as appropriate; the lead retains key decisions, meaningful acceptance, and final delivery.
 
-This repository offers two releases with the same skill name, `$subagent-steward`. The default edition, **v1.1.0** (`main`), lets the lead decide whether complete delegation is useful for each task. Install it with ref `v1.1.0`. The **economy-v1.1.0** edition ([release](https://github.com/GengsengGhou/subagent-steward/releases/tag/economy-v1.1.0), [`economy` branch](https://github.com/GengsengGhou/subagent-steward/tree/economy)) more readily assigns complete execution to Luna or Sol by default, including integration, checks, and acceptance evidence, while the lead retains key decisions and targeted acceptance. Install it with ref `economy-v1.1.0`.
+Install with Codex by asking `$skill-installer` to install `GengsengGhou/subagent-steward`, path `skills/subagent-steward`, at ref `v2.0.0`. For manual installation, download the [release ZIP](https://github.com/GengsengGhou/subagent-steward/releases/download/v2.0.0/subagent-steward-v2.0.0.zip), then place the ZIP's `subagent-steward/` directory under `$CODEX_HOME/skills/` (usually `~/.codex/skills/` when unset). The skill is available next turn. When updating from an earlier default or economy edition, back up personal edits, replace the skill directory, and replace only the optional `subagent-steward` marker block in `AGENTS.md` with the [v2.0.0 snippet](examples/AGENTS.snippet.md); preserve all other instructions and settings.
 
-Subagent Steward is a community Codex skill for cost-aware delegation under an Astra lead. It preserves the user's primary model and effort and uses **GPT-6 Luna / high** and **GPT-6.1 Sol / medium** as flexible starting points. Sol falls back to `gpt-6-sol`, then `gpt-5.6-sol`; Luna falls back to `gpt-5.6-luna`, only with live-tool-supported efforts. Retain suitable active owners. Codex recommends the client default for 6.1 Sol; medium is this skill's practical starting point, not a native-tool default. Favor Luna when both fit, but freely select Sol or Max without a proof requirement or prior failed attempt. Delegate coherent investigation, implementation, testing, and repair assignments when useful. Astra can call either model directly; workers may delegate independent parts when supported, retaining responsibility for scope, integration, and checks. There is no mandatory coordinator layer or skill-imposed count/depth quota; live runtime restrictions still apply. The lead may always investigate deeply or take over when needed. Actual savings and quality effects remain unmeasured. When switching editions, back up local customizations and replace the corresponding optional AGENTS.md block while keeping other instructions.
-
-Pin `v1.1.0` or `economy-v1.1.0` for a stable release. Explicitly choose a branch or full commit SHA to try subsequent development; branches can change.
-
-To install the default edition, ask Codex: "Use skill-installer to install skills/subagent-steward from https://github.com/GengsengGhou/subagent-steward with ref v1.1.0." For the economy edition, use the same instruction with ref `economy-v1.1.0`. Invoke either edition with `$subagent-steward`. For optional recurring use, merge the selected edition's [portable AGENTS.md snippet](https://github.com/GengsengGhou/subagent-steward/blob/v1.1.0/examples/AGENTS.snippet.md) into your own instructions; use ref `economy-v1.1.0` for the economy snippet. Native subagent tooling and supported models are required for delegation. Neither edition guarantees savings.
+See the [skill](skills/subagent-steward/SKILL.md), [optional AGENTS snippet](examples/AGENTS.snippet.md), [model guidance](skills/subagent-steward/references/model-guidance.md), and [primary-model reader reference](skills/subagent-steward/references/primary-model.md). The reader uses Python's standard library only. If Python or the local metadata format is unavailable, routing falls back to Sol without changing the primary or effort. No runtime or dependency is installed for the lookup, and no savings, quality equivalence, or hard budget is guaranteed.
 
 ## License
 
