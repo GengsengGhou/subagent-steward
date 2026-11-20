@@ -1,11 +1,11 @@
 # 子智能体管家 / Subagent Steward
 
-**v3.0.0 · 统一自适应维护版**
+**v3.1.0 · 统一自适应维护版**
 
 子智能体管家根据根主智能体当前所选主模型、任务适配度和实时原生工具支持，决定直接完成或分工。执行者负责适合任务的完整结果，主智能体保留关键决策、审查实际产物和可复现证据，并完成最终交付。这是社区维护的 Codex skill，不是 OpenAI 官方项目或独立调度服务。
 
-- [v3.0.0 正式发布页](https://github.com/GengsengGhou/subagent-steward/releases/tag/v3.0.0)
-- [下载技能 ZIP](https://github.com/GengsengGhou/subagent-steward/releases/download/v3.0.0/subagent-steward-v3.0.0.zip)
+- [v3.1.0 正式发布页](https://github.com/GengsengGhou/subagent-steward/releases/tag/v3.1.0)
+- [下载技能 ZIP](https://github.com/GengsengGhou/subagent-steward/releases/download/v3.1.0/subagent-steward-v3.1.0.zip)
 
 技能在 Codex 中显示为 **Subagent Steward**，副标题为 **Delegate tasks to Luna, Terra, and Sol**。
 
@@ -26,9 +26,9 @@ Luna、Terra、Sol 都可在合适且受允许时负责实现、调查、写作�
 | --- | --- | --- |
 | `gpt-6-luna` | 集中执行、局部技术判断、边界清楚的问题求解及重复工作 | `high` |
 | `gpt-6.1-terra` | 基于材料写作、视觉理解、目标明确的电脑操作及局部代码修复 | `medium` |
-| `gpt-6.1-sol` | 复杂编程、不确定调查、相互依赖的交付与整合、冲突证据判断 | `medium` |
+| `gpt-6.2-sol` | 复杂编程、不确定调查、相互依赖的交付与整合、冲突证据判断 | `medium` |
 
-强度起点只是参考；按任务选择实时支持的强度，需要深度时可直接选择 `xhigh` 或 `max`。模型族首选及同族回退为 Luna `gpt-6-luna` → `gpt-5.6-luna`、Terra `gpt-6.1-terra` → `gpt-5.6-terra`、Sol `gpt-6.1-sol` → `gpt-6-sol` → `gpt-5.6-sol`。不更换用户选择的主模型或主推理强度。
+强度起点只是参考；按任务选择实时支持的强度，需要深度时可直接选择 `xhigh` 或 `max`。模型族首选及同族回退为 Luna `gpt-6-luna` → `gpt-5.6-luna`、Terra `gpt-6.1-terra` → `gpt-5.6-terra`、Sol `gpt-6.2-sol` → `gpt-6.1-sol` → `gpt-6-sol` → `gpt-5.6-sol`。不更换用户选择的主模型或主推理强度。
 
 ## 角色、授权与验收
 
@@ -50,17 +50,17 @@ Luna、Terra、Sol 都可在合适且受允许时负责实现、调查、写作�
 
 ### Codex skill-installer
 
-在 Codex 中请求安装 GitHub 技能并固定使用 v3.0.0：
+在 Codex 中请求安装 GitHub 技能并固定使用 v3.1.0：
 
 ```text
-使用 $skill-installer 从 GitHub 仓库 GengsengGhou/subagent-steward 安装 skills/subagent-steward，指定 --ref v3.0.0。
+使用 $skill-installer 从 GitHub 仓库 GengsengGhou/subagent-steward 安装 skills/subagent-steward，指定 --ref v3.1.0。
 ```
 
 ### 手动安装
 
-从[正式发布页](https://github.com/GengsengGhou/subagent-steward/releases/tag/v3.0.0)下载 [v3.0.0 ZIP](https://github.com/GengsengGhou/subagent-steward/releases/download/v3.0.0/subagent-steward-v3.0.0.zip)，解压后将 ZIP 中的 `subagent-steward/` 文件夹放入 `$CODEX_HOME/skills/`；若未设置 `CODEX_HOME`，通常使用 `~/.codex/skills/`。保留完整目录结构，包括 reader、PowerShell/sh 启动器和 references。安装后下一轮即可使用 `$subagent-steward`。
+从[正式发布页](https://github.com/GengsengGhou/subagent-steward/releases/tag/v3.1.0)下载 [v3.1.0 ZIP](https://github.com/GengsengGhou/subagent-steward/releases/download/v3.1.0/subagent-steward-v3.1.0.zip)，解压后将 ZIP 中的 `subagent-steward/` 文件夹放入 `$CODEX_HOME/skills/`；若未设置 `CODEX_HOME`，通常使用 `~/.codex/skills/`。保留完整目录结构，包括 reader、PowerShell/sh 启动器和 references。安装后下一轮即可使用 `$subagent-steward`。
 
-从旧默认版或经济版更新前，备份个人修改，再替换同名技能目录。若个人或项目 `AGENTS.md` 有可选的 `subagent-steward` 标记块，同步换成 v3.0.0 的[可选配置片段](examples/AGENTS.snippet.md)；只替换该标记块，保留其他指令和配置。安装不会更改主模型、推理强度或其他设置。
+从旧默认版或经济版更新前，备份个人修改，再替换同名技能目录。若个人或项目 `AGENTS.md` 有可选的 `subagent-steward` 标记块，同步换成 v3.1.0 的[可选配置片段](examples/AGENTS.snippet.md)；只替换该标记块，保留其他指令和配置。安装不会更改主模型、推理强度或其他设置。
 
 ## 参考
 
@@ -71,7 +71,7 @@ Luna、Terra、Sol 都可在合适且受允许时负责实现、调查、写作�
 
 ## English
 
-Subagent Steward v3.0.0 is one unified adaptive Codex skill. It adapts work to the root lead's fresh current primary model, task fit, and live native-tool support. Workers can own complete outcomes; the lead retains key decisions, evidence-based acceptance, and final delivery. Its Codex UI name is **Subagent Steward**, with the subtitle **Delegate tasks to Luna, Terra, and Sol**. This is a community-maintained skill, not an official OpenAI project or standalone scheduler.
+Subagent Steward v3.1.0 is one unified adaptive Codex skill. It adapts work to the root lead's fresh current primary model, task fit, and live native-tool support. Workers can own complete outcomes; the lead retains key decisions, evidence-based acceptance, and final delivery. Its Codex UI name is **Subagent Steward**, with the subtitle **Delegate tasks to Luna, Terra, and Sol**. This is a community-maintained skill, not an official OpenAI project or standalone scheduler.
 
 | Root primary | Regular child families | Usual tendency |
 | --- | --- | --- |
@@ -82,7 +82,7 @@ Subagent Steward v3.0.0 is one unified adaptive Codex skill. It adapts work to t
 
 These family limits are local policy reflecting the user's capability and cost choice, not an objective ranking or hard budget. They constrain regular child families, not delegation, task size, worker count, or parallelism. Only explicit user direction or existing authorization widens the root's family set. If no suitable live-supported candidate is available within it, work directly.
 
-Luna, Terra, and Sol can each own complete implementation, investigation, writing, checks, or review when suitable and permitted. Choose by task and tool fit, time, total completion cost, and user preference. Favor Luna only when candidates are equally suitable and another permitted family has no practical advantage. Practical effort starting points are Luna/high, Terra/medium, and Sol/medium; they are guidance, not requirements. Use a supported effort directly, including `xhigh` or `max` when depth helps. Preferred same-family routes are Luna `gpt-6-luna` to `gpt-5.6-luna`, Terra `gpt-6.1-terra` to `gpt-5.6-terra`, and Sol `gpt-6.1-sol` to `gpt-6-sol`, then `gpt-5.6-sol`. Never change the selected primary or its effort.
+Luna, Terra, and Sol can each own complete implementation, investigation, writing, checks, or review when suitable and permitted. Choose by task and tool fit, time, total completion cost, and user preference. Favor Luna only when candidates are equally suitable and another permitted family has no practical advantage. Practical effort starting points are Luna/high, Terra/medium, and Sol/medium; they are guidance, not requirements. Use a supported effort directly, including `xhigh` or `max` when depth helps. Preferred same-family routes are Luna `gpt-6-luna` to `gpt-5.6-luna`, Terra `gpt-6.1-terra` to `gpt-5.6-terra`, and Sol `gpt-6.2-sol` to `gpt-6.1-sol`, then `gpt-6-sol` and `gpt-5.6-sol`. Never change the selected primary or its effort.
 
 An assigned worker remains a worker and executes its assigned scope. Further delegation requires explicit bounded permission from its parent; permission does not propagate automatically. Handoffs carry the original root's allowed families, scope, authorization, acceptance needs, and integration responsibility. The lead reviews relevant artifacts and reproducible evidence; incomplete work normally returns to its original owner for targeted continuation. Native completion notifications or bounded waits follow the live tool. There are no fixed worker, nesting, or token quotas and no cheaper-model trial requirement.
 
@@ -90,7 +90,7 @@ Use only fresh, explicit **CURRENT-TURN** primary metadata. If a root first need
 
 The reader inspects only the exact local session through read-only state lookup and bounded metadata. It does not scan other chats or emit conversation text. Launchers do not install, download, activate, or change runtime configuration. Running them still requires a PowerShell or POSIX `sh` shell and a compatible Python runtime; they are not zero-runtime cross-platform execution. The local storage format is not a stable public API. See the [primary-model reader reference](skills/subagent-steward/references/primary-model.md).
 
-Install with Codex by asking `$skill-installer` to install `GengsengGhou/subagent-steward`, path `skills/subagent-steward`, at ref `v3.0.0`. For manual installation, download the [release ZIP](https://github.com/GengsengGhou/subagent-steward/releases/download/v3.0.0/subagent-steward-v3.0.0.zip) and place its `subagent-steward/` directory under `$CODEX_HOME/skills/` (usually `~/.codex/skills/` when unset). The skill is available next turn. When updating from an earlier default or economy edition, back up personal edits, replace the skill directory, and replace only the optional `subagent-steward` marker block in `AGENTS.md` with the [v3.0.0 snippet](examples/AGENTS.snippet.md); preserve all other instructions and settings.
+Install with Codex by asking `$skill-installer` to install `GengsengGhou/subagent-steward`, path `skills/subagent-steward`, at ref `v3.1.0`. For manual installation, download the [release ZIP](https://github.com/GengsengGhou/subagent-steward/releases/download/v3.1.0/subagent-steward-v3.1.0.zip) and place its `subagent-steward/` directory under `$CODEX_HOME/skills/` (usually `~/.codex/skills/` when unset). The skill is available next turn. When updating from an earlier default or economy edition, back up personal edits, replace the skill directory, and replace only the optional `subagent-steward` marker block in `AGENTS.md` with the [v3.1.0 snippet](examples/AGENTS.snippet.md); preserve all other instructions and settings.
 
 See the [skill](skills/subagent-steward/SKILL.md), [optional AGENTS snippet](examples/AGENTS.snippet.md), [model guidance](skills/subagent-steward/references/model-guidance.md), and [reader reference](skills/subagent-steward/references/primary-model.md).
 

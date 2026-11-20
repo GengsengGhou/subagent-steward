@@ -166,6 +166,9 @@ class ReadPrimaryModelTests(unittest.TestCase):
         for model, expected in (
             ("gpt-6-astra-20261101", "astra"),
             ("gpt-6.1-sol", "sol"),
+            ("gpt-6.2-sol", "sol"),
+            ("gpt-6.2-astra", "astra"),
+            ("openai/gpt-6.2-astra-2026-11-20", "astra"),
             ("provider/gpt-5.6-terra-2026-11-01", "terra"),
             ("gpt-5.6-luna", "luna"),
             ("gpt-6.1-astra-like", None),

@@ -1,5 +1,7 @@
 # Model guidance and policy basis
 
+Codex's native subagent tool listed `gpt-6.2-sol` as supported on 2026-11-20. The skill prefers it when the selected worker family is Sol and the live tool supports it. As primaries, `gpt-6.2-sol` and `gpt-6.2-astra` follow their existing family policies.
+
 Official sources checked 2026-11-14:
 
 - [GPT-6.1 Terra](https://developers.openai.com/api/docs/models/gpt-6.1-terra) is described as fast and efficient for visual reasoning, precise computer use, and clear, natural writing, including photos, technical drawings, application screens, and drafting or revising text.

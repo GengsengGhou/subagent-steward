@@ -41,7 +41,7 @@ def _routing_policy(model: str) -> str | None:
     # Provider namespaces may prefix the model; snapshot suffixes are numeric.
     model_name = normalized.rsplit("/", 1)[-1]
     match = re.fullmatch(
-        r"gpt-(?:6(?:\.1)?|5\.6)-(astra|sol|terra|luna)"
+        r"gpt-(?:6(?:\.[12])?|5\.6)-(astra|sol|terra|luna)"
         r"(?:-(?:\d{8}|\d{4}(?:-\d{2}(?:-\d{2})?)?))?",
         model_name,
     )
